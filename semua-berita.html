@@ -1,0 +1,1344 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semua Berita - Dodod Saketi</title>
+    
+    <!-- Bootstrap 5.3.0 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome 6.4.0 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #2c5530;
+            --secondary-color: #4a7c59;
+            --accent-color: #f39c12;
+            --light-bg: #f8f9fa;
+            --success-color: #27ae60;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --dark-text: #2c5530;
+            --light-text: #6c757d;
+            --header-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            min-height: 100vh;
+            color: var(--dark-text);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        .header {
+            background: var(--header-bg);
+            border-bottom: none;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: var(--primary-color) !important;
+            font-size: 1.5rem;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar-nav .nav-link {
+            font-weight: 500;
+            color: var(--dark-text) !important;
+            transition: all 0.3s ease;
+            margin: 0 8px;
+            border-radius: 8px;
+            padding: 8px 16px !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .navbar-nav .nav-link:hover {
+            background: var(--accent-color);
+            color: white !important;
+            transform: translateY(-2px);
+        }
+
+        .navbar-nav .nav-link.active {
+            background: var(--primary-color);
+            color: white !important;
+        }
+
+        .back-btn {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(44, 85, 48, 0.3);
+            color: white;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 2rem 0;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* Stats Cards */
+        .stats-container {
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .stat-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--light-text);
+            font-weight: 500;
+        }
+
+        /* Search and Filter Section */
+        .filter-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 12px 50px 12px 20px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .search-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(44, 85, 48, 0.25);
+            outline: none;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--light-text);
+        }
+
+        .filter-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .filter-btn {
+            border: 2px solid var(--primary-color);
+            background: transparent;
+            color: var(--primary-color);
+            border-radius: 25px;
+            padding: 8px 20px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(44, 85, 48, 0.3);
+        }
+
+        /* News Grid */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: none;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #ddd, #eee);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 3rem;
+            position: relative;
+        }
+
+        .news-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+        }
+
+        .news-image-container img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .news-card:hover .news-image-container img {
+            transform: scale(1.05);
+        }
+
+        .news-content {
+            padding: 1.5rem;
+        }
+
+        .news-category {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .news-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .news-excerpt {
+            color: var(--light-text);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid #e9ecef;
+            font-size: 0.8rem;
+            color: var(--light-text);
+        }
+
+        .news-author {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .news-views {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .read-more-btn {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .read-more-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(44, 85, 48, 0.3);
+        }
+
+        /* Loading and Empty States */
+        .loading-spinner {
+            text-align: center;
+            padding: 3rem;
+            color: white;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: white;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+
+        /* Debug Tools */
+        .debug-tools {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .debug-btn {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .debug-refresh {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .debug-inspect {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .debug-clear {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .filter-buttons {
+                justify-content: center;
+            }
+
+            .stats-container .row {
+                text-align: center;
+            }
+
+            .debug-tools {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin: 1rem 0;
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+            <div class="container">
+                <a class="navbar-brand" href="index.html">
+                    Dodod Saketi
+                </a>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">
+                                Beranda
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="semua-berita.html">
+                                Berita
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html#tentang">
+                                Tentang
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html#kontak">
+                                Kontak
+                            </a>
+                        </li>
+                    </ul>
+                    
+                    <div class="d-flex">
+                        <a href="javascript:history.back()" class="back-btn">
+                            <i class="fas fa-arrow-left me-1"></i>
+                            Kembali
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1><i class="fas fa-newspaper me-3"></i>Semua Berita</h1>
+                <p>Ikuti perkembangan terkini di Dodod Saketi</p>
+            </div>
+
+            <!-- Statistics -->
+            <div class="stats-container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6 mb-4">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-newspaper"></i>
+                            </div>
+                            <div class="stat-number" id="totalNews">0</div>
+                            <div class="stat-label">Total Berita</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-4">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="stat-number" id="totalViews">0</div>
+                            <div class="stat-label">Total Views</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-4">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-tags"></i>
+                            </div>
+                            <div class="stat-number" id="totalCategories">0</div>
+                            <div class="stat-label">Kategori</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-6 mb-4">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-calendar"></i>
+                            </div>
+                            <div class="stat-number" id="todayNews">0</div>
+                            <div class="stat-label">Berita Hari Ini</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Search and Filter -->
+            <div class="filter-section">
+                <div class="search-box">
+                    <input type="text" 
+                           class="search-input" 
+                           id="searchInput" 
+                           placeholder="Cari berita berdasarkan judul, konten, atau penulis...">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                
+                <div class="filter-buttons" id="filterButtons">
+                    <button class="filter-btn active" data-category="semua">
+                        <i class="fas fa-th-large me-1"></i>Semua
+                    </button>
+                    <button class="filter-btn" data-category="berita-utama">
+                        <i class="fas fa-star me-1"></i>Berita Utama
+                    </button>
+                    <button class="filter-btn" data-category="pengumuman">
+                        <i class="fas fa-bullhorn me-1"></i>Pengumuman
+                    </button>
+                    <button class="filter-btn" data-category="acara">
+                        <i class="fas fa-calendar-alt me-1"></i>Acara
+                    </button>
+                    <button class="filter-btn" data-category="pembangunan">
+                        <i class="fas fa-hammer me-1"></i>Pembangunan
+                    </button>
+                </div>
+            </div>
+
+            <!-- Debug Tools -->
+            <div class="debug-tools d-none" id="debugTools">
+                <button class="debug-btn debug-refresh" onclick="debugRefresh()">
+                    <i class="fas fa-sync-alt me-1"></i>Refresh Data
+                </button>
+                <button class="debug-btn debug-inspect" onclick="debugInspect()">
+                    <i class="fas fa-search me-1"></i>Inspect Data
+                </button>
+                <button class="debug-btn debug-clear" onclick="debugClear()">
+                    <i class="fas fa-trash me-1"></i>Clear Cache
+                </button>
+                <button class="debug-btn" style="background: #17a2b8; color: white;" onclick="testReadNews()">
+                    <i class="fas fa-play me-1"></i>Test Read
+                </button>
+            </div>
+
+            <!-- Loading State -->
+            <div class="loading-spinner d-none" id="loadingState">
+                <div class="spinner"></div>
+                <h4>Memuat berita...</h4>
+                <p>Mohon tunggu sebentar</p>
+            </div>
+
+            <!-- News Grid -->
+            <div class="news-grid" id="newsGrid">
+                <!-- News cards will be populated here -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state d-none" id="emptyState">
+                <div class="empty-icon">
+                    <i class="fas fa-newspaper"></i>
+                </div>
+                <h3>Belum Ada Berita</h3>
+                <p>Berita akan muncul di sini setelah admin menambahkan konten baru</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Analytics Script -->
+    <script src="analytics.js"></script>
+
+    <!-- Main JavaScript -->
+    <script>
+        // Global Variables
+        let allNews = [];
+        let filteredNews = [];
+        let currentFilter = 'semua';
+        let currentSearch = '';
+        let isLoading = false;
+        let debugMode = false;
+
+        // News Categories Configuration
+        const newsCategories = {
+            'berita-utama': { 
+                label: 'Berita Utama', 
+                icon: 'fas fa-star',
+                color: '#2c5530'
+            },
+            'pengumuman': { 
+                label: 'Pengumuman', 
+                icon: 'fas fa-bullhorn',
+                color: '#f39c12'
+            },
+            'acara': { 
+                label: 'Acara', 
+                icon: 'fas fa-calendar-alt',
+                color: '#4a7c59'
+            },
+            'pembangunan': { 
+                label: 'Pembangunan', 
+                icon: 'fas fa-hammer',
+                color: '#27ae60'
+            }
+        };
+
+        // Utility Functions
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const options = { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            return date.toLocaleDateString('id-ID', options);
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1) + 'M';
+            }
+            if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'K';
+            }
+            return num.toString();
+        }
+
+        function truncateText(text, maxLength) {
+            if (text.length <= maxLength) return text;
+            return text.substring(0, maxLength) + '...';
+        }
+
+        function showLoading() {
+            document.getElementById('loadingState').classList.remove('d-none');
+            document.getElementById('newsGrid').style.display = 'none';
+            document.getElementById('emptyState').classList.add('d-none');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingState').classList.add('d-none');
+            document.getElementById('newsGrid').style.display = 'grid';
+        }
+
+        function showEmpty() {
+            document.getElementById('emptyState').classList.remove('d-none');
+            document.getElementById('newsGrid').style.display = 'none';
+            document.getElementById('loadingState').classList.add('d-none');
+        }
+
+        function showError(message) {
+            console.error('Error:', message);
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'alert alert-danger alert-dismissible fade show';
+            errorDiv.innerHTML = `
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <strong>Error:</strong> ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.querySelector('.container').insertBefore(errorDiv, document.querySelector('.stats-container'));
+            
+            setTimeout(() => {
+                errorDiv.remove();
+            }, 5000);
+        }
+
+        function showSuccessMessage(message) {
+            const successDiv = document.createElement('div');
+            successDiv.className = 'alert alert-success alert-dismissible fade show';
+            successDiv.innerHTML = `
+                <i class="fas fa-check-circle me-2"></i>
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            document.querySelector('.container').insertBefore(successDiv, document.querySelector('.stats-container'));
+            
+            setTimeout(() => {
+                successDiv.remove();
+            }, 3000);
+        }
+
+        // Data Loading Functions
+        function loadNewsFromStorage() {
+            try {
+                console.log('🔍 Loading news from localStorage...');
+                const storedNews = localStorage.getItem('dodod_news');
+                
+                if (!storedNews) {
+                    console.log('⚠️ No news found in localStorage');
+                    return [];
+                }
+
+                const parsedNews = JSON.parse(storedNews);
+                console.log(`📦 Found ${parsedNews.length} news items in storage`);
+                
+                // Filter hanya berita yang published atau tidak memiliki status
+                const publishedNews = parsedNews.filter(news => {
+                    const isPublished = !news.status || 
+                                      news.status === '' || 
+                                      news.status === 'published' || 
+                                      news.status === undefined || 
+                                      news.status === null;
+                    
+                    if (debugMode) {
+                        console.log(`📰 "${news.title}" - Status: "${news.status}" - Published: ${isPublished}`);
+                    }
+                    
+                    return isPublished;
+                });
+
+                console.log(`✅ ${publishedNews.length} published news items found`);
+                return publishedNews;
+                
+            } catch (error) {
+                console.error('❌ Error loading news from storage:', error);
+                showError('Gagal memuat data berita');
+                return [];
+            }
+        }
+
+        function loadAllNews() {
+            if (isLoading) {
+                console.log('⏳ Already loading, skipping...');
+                return;
+            }
+
+            isLoading = true;
+            showLoading();
+
+            console.log('🚀 Starting news load process...');
+
+            // Simulate loading delay for better UX
+            setTimeout(() => {
+                try {
+                    allNews = loadNewsFromStorage();
+                    
+                    // Add dummy news if no real news exists
+                    if (allNews.length === 0) {
+                        console.log('📝 No news found, adding sample news...');
+                        addSampleNews();
+                        allNews = loadNewsFromStorage();
+                    }
+
+                    // Apply current filters
+                    applyFilters();
+                    
+                    // Update statistics
+                    updateStatistics();
+                    
+                    console.log(`✅ News loading completed. Total: ${allNews.length}`);
+                    
+                } catch (error) {
+                    console.error('❌ Error in loadAllNews:', error);
+                    showError('Terjadi kesalahan saat memuat berita');
+                    showEmpty();
+                } finally {
+                    isLoading = false;
+                    hideLoading();
+                }
+            }, 500);
+        }
+
+        function addSampleNews() {
+            const sampleNews = [
+                {
+                    id: 'sample_news_1',
+                    title: 'Selamat Datang di Portal Berita Dodod Saketi',
+                    category: 'berita-utama',
+                    content: 'Portal berita resmi Dodod Saketi telah diluncurkan untuk memberikan informasi terkini kepada masyarakat. Portal ini akan menyajikan berbagai berita penting, pengumuman, dan informasi pembangunan di desa kita. Melalui portal ini, masyarakat dapat mengakses informasi terbaru tentang kegiatan desa, program pembangunan, dan berbagai pengumuman penting lainnya.',
+                    author: 'Admin Dodod Saketi',
+                    views: 156,
+                    status: 'published',
+                    createdAt: new Date().toISOString(),
+                    image: 'image/image 1.png',
+                    imageData: null
+                },
+                {
+                    id: 'sample_news_2',
+                    title: 'Program Pembangunan Infrastruktur Jalan Desa',
+                    category: 'pembangunan',
+                    content: 'Pemerintah desa akan memulai program pembangunan infrastruktur jalan untuk meningkatkan akses transportasi masyarakat. Program ini direncanakan akan selesai dalam 6 bulan ke depan dengan melibatkan gotong royong masyarakat. Pembangunan ini meliputi perbaikan jalan utama, pembangunan jembatan kecil, dan pemasangan penerangan jalan.',
+                    author: 'Tim Pembangunan',
+                    views: 89,
+                    status: 'published',
+                    createdAt: new Date(Date.now() - 86400000).toISOString(),
+                    image: 'image/image 2.png',
+                    imageData: null
+                },
+                {
+                    id: 'sample_news_3',
+                    title: 'Pengumuman Jadwal Musyawarah Desa Bulan Ini',
+                    category: 'pengumuman',
+                    content: 'Musyawarah desa akan diadakan pada tanggal 20 September 2025 di Balai Desa. Agenda utama meliputi pembahasan APBD, program pembangunan, dan evaluasi kegiatan desa. Seluruh warga diharapkan dapat menghadiri acara ini untuk memberikan masukan dan saran bagi kemajuan desa bersama.',
+                    author: 'Sekretaris Desa',
+                    views: 234,
+                    status: 'published',
+                    createdAt: new Date(Date.now() - 172800000).toISOString(),
+                    image: 'image/image 3.png',
+                    imageData: null
+                }
+            ];
+
+            try {
+                const existingNews = JSON.parse(localStorage.getItem('dodod_news') || '[]');
+                
+                // Check if sample news already exist to avoid duplicates
+                const hasExistingSamples = existingNews.some(news => news.id.startsWith('sample_news_'));
+                
+                if (!hasExistingSamples) {
+                    const combinedNews = [...existingNews, ...sampleNews];
+                    localStorage.setItem('dodod_news', JSON.stringify(combinedNews));
+                    console.log('✅ Sample news added successfully');
+                } else {
+                    console.log('ℹ️ Sample news already exist, skipping...');
+                }
+            } catch (error) {
+                console.error('❌ Error adding sample news:', error);
+            }
+        }
+
+        // Filter and Search Functions
+        function applyFilters() {
+            console.log(`🔍 Applying filters - Category: ${currentFilter}, Search: "${currentSearch}"`);
+            
+            let filtered = [...allNews];
+
+            // Apply category filter
+            if (currentFilter !== 'semua') {
+                filtered = filtered.filter(news => news.category === currentFilter);
+            }
+
+            // Apply search filter
+            if (currentSearch.trim()) {
+                const searchTerm = currentSearch.toLowerCase().trim();
+                filtered = filtered.filter(news => 
+                    news.title.toLowerCase().includes(searchTerm) ||
+                    news.content.toLowerCase().includes(searchTerm) ||
+                    news.author.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            // Sort by date (newest first)
+            filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+            filteredNews = filtered;
+            console.log(`📊 Filtered results: ${filteredNews.length} items`);
+            
+            displayNews();
+        }
+
+        function displayNews() {
+            const newsGrid = document.getElementById('newsGrid');
+            
+            if (filteredNews.length === 0) {
+                showEmpty();
+                return;
+            }
+
+            hideLoading();
+            newsGrid.innerHTML = '';
+
+            filteredNews.forEach(news => {
+                const newsCard = createNewsCard(news);
+                newsGrid.appendChild(newsCard);
+            });
+
+            console.log(`✅ Displayed ${filteredNews.length} news cards`);
+        }
+
+        function createNewsCard(news) {
+            const card = document.createElement('div');
+            card.className = 'news-card';
+            
+            const category = newsCategories[news.category] || { 
+                label: news.category, 
+                icon: 'fas fa-newspaper',
+                color: '#2c5530'
+            };
+
+            const excerpt = truncateText(news.content, 150);
+            const formattedDate = formatDate(news.createdAt);
+            const formattedViews = formatNumber(news.views || 0);
+
+            // Determine image to display
+            let imageContent;
+            
+            // Only log in debug mode
+            if (debugMode) {
+                console.log(`🖼️ Creating card for: "${news.title}"`);
+                console.log(`   - image: ${news.image}`);
+                console.log(`   - imageData: ${news.imageData ? 'Has base64 (' + news.imageData.substring(0, 50) + '...)' : 'No base64'}`);
+            }
+            
+            if (news.imageData && news.imageData.trim() !== '') {
+                // If news has base64 image data (from admin upload), display it
+                imageContent = `<img src="${news.imageData}" alt="${news.title}" style="width: 100%; height: 200px; object-fit: cover;">`;
+                if (debugMode) console.log(`   ✅ Using base64 imageData`);
+            } else if (news.image && news.image.trim() !== '') {
+                // If news has image path/filename, display it
+                imageContent = `<img src="${news.image}" alt="${news.title}" style="width: 100%; height: 200px; object-fit: cover;">`;
+                if (debugMode) console.log(`   ✅ Using image path: ${news.image}`);
+            } else {
+                // If no image, show icon placeholder
+                imageContent = `<div class="news-image">
+                    <i class="${category.icon}"></i>
+                </div>`;
+                if (debugMode) console.log(`   ⚠️ No image, using icon placeholder`);
+            }
+
+            card.innerHTML = `
+                <div class="news-image-container" style="position: relative; overflow: hidden;">
+                    ${imageContent}
+                </div>
+                <div class="news-content">
+                    <span class="news-category" style="background-color: ${category.color}">
+                        <i class="${category.icon} me-1"></i>${category.label}
+                    </span>
+                    <h3 class="news-title">${news.title}</h3>
+                    <p class="news-excerpt">${excerpt}</p>
+                    <button class="read-more-btn" data-news-id="${news.id}">
+                        <i class="fas fa-arrow-right me-1"></i>Baca Selengkapnya
+                    </button>
+                    <div class="news-meta">
+                        <div class="news-author">
+                            <i class="fas fa-user"></i>
+                            <span>${news.author}</span>
+                        </div>
+                        <div class="news-views">
+                            <i class="fas fa-eye"></i>
+                            <span>${formattedViews}</span>
+                        </div>
+                    </div>
+                    <div class="news-meta">
+                        <small>
+                            <i class="fas fa-clock me-1"></i>${formattedDate}
+                        </small>
+                    </div>
+                </div>
+            `;
+
+            // Add event listener to the button
+            const button = card.querySelector('.read-more-btn');
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const newsId = this.getAttribute('data-news-id');
+                console.log('🔥 Button clicked, newsId:', newsId);
+                readNews(newsId);
+            });
+
+            return card;
+        }
+
+        // Statistics Functions
+        function updateStatistics() {
+            try {
+                const totalNews = allNews.length;
+                const totalViews = allNews.reduce((sum, news) => sum + (news.views || 0), 0);
+                const uniqueCategories = [...new Set(allNews.map(news => news.category))].length;
+                
+                // Count today's news
+                const today = new Date();
+                const todayNews = allNews.filter(news => {
+                    const newsDate = new Date(news.createdAt);
+                    return newsDate.toDateString() === today.toDateString();
+                }).length;
+
+                // Update DOM
+                document.getElementById('totalNews').textContent = totalNews;
+                document.getElementById('totalViews').textContent = formatNumber(totalViews);
+                document.getElementById('totalCategories').textContent = uniqueCategories;
+                document.getElementById('todayNews').textContent = todayNews;
+
+                console.log(`📊 Statistics updated - News: ${totalNews}, Views: ${totalViews}, Categories: ${uniqueCategories}, Today: ${todayNews}`);
+                
+            } catch (error) {
+                console.error('❌ Error updating statistics:', error);
+            }
+        }
+
+        // Event Handlers
+        function setupEventListeners() {
+            // Search input
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', (e) => {
+                currentSearch = e.target.value;
+                applyFilters();
+            });
+
+            // Filter buttons
+            document.getElementById('filterButtons').addEventListener('click', (e) => {
+                if (e.target.classList.contains('filter-btn')) {
+                    // Update active button
+                    document.querySelectorAll('.filter-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    e.target.classList.add('active');
+
+                    // Update filter
+                    currentFilter = e.target.dataset.category;
+                    applyFilters();
+                }
+            });
+
+            // Storage change listener (for cross-tab updates)
+            window.addEventListener('storage', (e) => {
+                if (e.key === 'dodod_news') {
+                    console.log('📱 Storage changed in another tab, reloading...');
+                    setTimeout(() => loadAllNews(), 500);
+                }
+            });
+
+            // Page visibility change listener
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) {
+                    console.log('👁️ Page became visible, checking for updates...');
+                    setTimeout(() => loadAllNews(), 300);
+                }
+            });
+
+            // Window focus listener
+            window.addEventListener('focus', () => {
+                console.log('🎯 Window focused, refreshing data...');
+                setTimeout(() => loadAllNews(), 500);
+            });
+
+            console.log('👂 Event listeners setup completed');
+        }
+
+        // Navigation Functions
+        function readNews(newsId) {
+            console.log('🔥 readNews function called with ID:', newsId);
+            
+            try {
+                console.log(`📖 Opening news detail for ID: ${newsId}`);
+                
+                // Check if newsId is valid
+                if (!newsId) {
+                    console.error('❌ No newsId provided');
+                    alert('Error: ID berita tidak valid');
+                    return false;
+                }
+                
+                // Find the news item
+                const newsItem = allNews.find(news => news.id === newsId);
+                if (!newsItem) {
+                    console.error('❌ News item not found:', newsId);
+                    console.log('🔍 Available news IDs:', allNews.map(n => n.id));
+                    alert('Error: Berita tidak ditemukan');
+                    return false;
+                }
+                
+                console.log('📰 Found news item:', newsItem);
+                
+                // Increment view count
+                try {
+                    const newsIndex = allNews.findIndex(news => news.id === newsId);
+                    if (newsIndex !== -1) {
+                        allNews[newsIndex].views = (allNews[newsIndex].views || 0) + 1;
+                        
+                        // Update localStorage
+                        const allStoredNews = JSON.parse(localStorage.getItem('dodod_news') || '[]');
+                        const storedIndex = allStoredNews.findIndex(news => news.id === newsId);
+                        if (storedIndex !== -1) {
+                            allStoredNews[storedIndex].views = allNews[newsIndex].views;
+                            localStorage.setItem('dodod_news', JSON.stringify(allStoredNews));
+                            console.log(`👁️ View count updated for news: ${newsId}`);
+                        }
+                    }
+                } catch (viewError) {
+                    console.log('⚠️ View count update failed (ignored):', viewError.message);
+                }
+
+                // Track analytics (with safety check)
+                try {
+                    if (window.dododAnalytics && typeof window.dododAnalytics.trackEvent === 'function') {
+                        window.dododAnalytics.trackEvent('news_read', { newsId });
+                        console.log('📊 Analytics tracked');
+                    } else {
+                        console.log('📊 Analytics not available, skipping...');
+                    }
+                } catch (analyticsError) {
+                    console.log('📊 Analytics error (ignored):', analyticsError.message);
+                }
+
+                // Navigate to detail page
+                const detailUrl = `detail-berita.html?id=${newsId}`;
+                console.log(`🔗 Attempting to redirect to: ${detailUrl}`);
+                
+                // Show loading indicator
+                const originalText = document.querySelector(`[data-news-id="${newsId}"]`)?.innerHTML;
+                const button = document.querySelector(`[data-news-id="${newsId}"]`);
+                if (button) {
+                    button.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Membuka...';
+                    button.disabled = true;
+                }
+                
+                // Delay redirect slightly to show loading
+                setTimeout(() => {
+                    try {
+                        console.log('🚀 Redirecting now...');
+                        window.location.href = detailUrl;
+                    } catch (redirectError) {
+                        console.error('❌ Redirect failed:', redirectError);
+                        
+                        // Restore button
+                        if (button) {
+                            button.innerHTML = originalText || '<i class="fas fa-arrow-right me-1"></i>Baca Selengkapnya';
+                            button.disabled = false;
+                        }
+                        
+                        // Try alternative methods
+                        try {
+                            window.location.assign(detailUrl);
+                        } catch (assignError) {
+                            console.error('❌ Assign failed, trying window.open...');
+                            window.open(detailUrl, '_self');
+                        }
+                    }
+                }, 300);
+                
+                return false; // Prevent any default action
+                
+            } catch (error) {
+                console.error('❌ Error in readNews function:', error);
+                console.error('❌ Error stack:', error.stack);
+                alert(`Error: ${error.message}\n\nSilakan coba refresh halaman dan coba lagi.`);
+                return false;
+            }
+        }
+
+        // Debug Functions
+        function enableDebugMode() {
+            debugMode = true;
+            document.getElementById('debugTools').classList.remove('d-none');
+            console.log('🔧 Debug mode enabled');
+        }
+
+        function debugRefresh() {
+            console.log('🔄 Manual refresh triggered');
+            allNews = [];
+            filteredNews = [];
+            loadAllNews();
+        }
+
+        function debugInspect() {
+            const storedData = localStorage.getItem('dodod_news');
+            const parsedData = JSON.parse(storedData || '[]');
+            
+            console.log('📊 === DEBUG DATA INSPECTION ===');
+            console.log('Raw localStorage data:', storedData);
+            console.log('Parsed data:', parsedData);
+            console.log('Current allNews array:', allNews);
+            console.log('Current filteredNews array:', filteredNews);
+            console.log('Current filter:', currentFilter);
+            console.log('Current search:', currentSearch);
+            
+            // Check image data specifically
+            console.log('📸 === IMAGE DATA INSPECTION ===');
+            parsedData.forEach((news, index) => {
+                console.log(`News ${index + 1}: "${news.title}"`);
+                console.log(`  - image: ${news.image}`);
+                console.log(`  - imageData: ${news.imageData ? 'Has base64 data (' + news.imageData.length + ' chars)' : 'No base64 data'}`);
+            });
+            console.log('================================');
+            
+            alert(`📊 Data Inspection:\n\n` +
+                  `localStorage: ${parsedData.length} items\n` +
+                  `allNews: ${allNews.length} items\n` +
+                  `filteredNews: ${filteredNews.length} items\n` +
+                  `Current filter: ${currentFilter}\n` +
+                  `Current search: "${currentSearch}"\n\n` +
+                  `Image data check completed - see console for details`);
+        }
+
+        function debugClear() {
+            if (confirm('⚠️ Hapus semua cache dan data sementara?\n\nIni akan mereset halaman dan memuat ulang data.')) {
+                localStorage.removeItem('dodod_news_cache');
+                localStorage.removeItem('dodod_news'); // Clear all news data
+                allNews = [];
+                filteredNews = [];
+                currentFilter = 'semua';
+                currentSearch = '';
+                document.getElementById('searchInput').value = '';
+                document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelector('[data-category="semua"]').classList.add('active');
+                console.log('🗑️ All data cleared, reloading...');
+                loadAllNews();
+            }
+        }
+
+        // Initialize Application
+        function initializeApp() {
+            console.log('🚀 Initializing Semua Berita application...');
+            
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Load news data
+            loadAllNews();
+            
+            // Initialize analytics (with safety check)
+            try {
+                if (window.dododAnalytics && typeof window.dododAnalytics.trackPageView === 'function') {
+                    window.dododAnalytics.trackPageView('Semua Berita');
+                    console.log('📊 Page view tracked');
+                } else {
+                    console.log('📊 Analytics not available, skipping page view tracking...');
+                }
+            } catch (analyticsError) {
+                console.log('📊 Analytics error (ignored):', analyticsError.message);
+            }
+            
+            // Debug mode disabled for production
+            // Enable debug mode only for development if needed
+            // if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            //     enableDebugMode();
+            // }
+            
+            // Secret debug mode activation (for emergency debugging only)
+            // Press Ctrl+Shift+D to enable debug mode
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.shiftKey && e.key === 'D') {
+                    enableDebugMode();
+                    console.log('🔧 Debug mode activated via hotkey');
+                    showSuccessMessage('Debug mode activated! Check top-right corner.');
+                }
+            });
+            
+            console.log('✅ Application initialized successfully');
+        }
+
+        // Auto-refresh functionality
+        function startAutoRefresh() {
+            setInterval(() => {
+                if (!document.hidden && !isLoading) {
+                    console.log('🔄 Auto-refresh check...');
+                    const currentCount = allNews.length;
+                    const storedNews = JSON.parse(localStorage.getItem('dodod_news') || '[]');
+                    
+                    if (storedNews.length !== currentCount) {
+                        console.log('📱 Data changed, refreshing...');
+                        loadAllNews();
+                    }
+                }
+            }, 30000); // Check every 30 seconds
+        }
+
+        // Event Listeners
+        document.addEventListener('DOMContentLoaded', initializeApp);
+        window.addEventListener('load', startAutoRefresh);
+
+        // Test function for debugging
+        function testReadNews() {
+            console.log('🧪 Testing readNews function...');
+            console.log('🧪 Available news:', allNews);
+            
+            if (allNews.length > 0) {
+                const firstNewsId = allNews[0].id;
+                console.log(`🧪 Testing with first news ID: ${firstNewsId}`);
+                readNews(firstNewsId);
+            } else {
+                console.log('🧪 No news available for testing');
+                alert('No news available for testing. Try refreshing data first.');
+            }
+        }
+
+        // Global functions for inline event handlers
+        window.readNews = readNews;
+        window.debugRefresh = debugRefresh;
+        window.debugInspect = debugInspect;
+        window.debugClear = debugClear;
+        window.testReadNews = testReadNews;
+    </script>
+</body>
+</html>

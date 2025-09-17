@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌿 Dodod Saketi - Launcher</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c5530;
+            --secondary-color: #4a7c59;
+            --accent-color: #f39c12;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .launcher-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .launcher-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        .page-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            margin: 10px 0;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-decoration: none;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1.1rem;
+        }
+        
+        .page-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(44, 85, 48, 0.3);
+            color: white;
+        }
+        
+        .page-btn i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo h1 {
+            color: var(--primary-color);
+            font-weight: bold;
+            margin: 0;
+        }
+        
+        .instruction {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .instruction h6 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .instruction p {
+            margin: 5px 0;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .status {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background: rgba(44, 85, 48, 0.1);
+            border-radius: 10px;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <div class="launcher-container">
+        <div class="launcher-card">
+            <div class="logo">
+                <h1>Dodod Saketi</h1>
+                <p class="text-muted">Portal Berita & Informasi</p>
+            </div>
+            
+            <div class="text-center mb-4">
+                <h4>🚀 Pilih Halaman yang Ingin Dibuka:</h4>
+            </div>
+            
+            <a href="index.html" class="page-btn">
+                <i class="fas fa-home"></i>
+                Halaman Utama (Homepage)
+            </a>
+            
+            <a href="semua-berita.html" class="page-btn">
+                <i class="fas fa-newspaper"></i>
+                Semua Berita
+            </a>
+            
+            <a href="detail-berita.html" class="page-btn">
+                <i class="fas fa-file-alt"></i>
+                Contoh Detail Berita
+            </a>
+            
+            <div class="instruction">
+                <h6><i class="fas fa-info-circle me-2"></i>Cara Menggunakan:</h6>
+                <p><strong>1. Klik tombol di atas</strong> untuk membuka halaman yang diinginkan</p>
+                <p><strong>2. Login Admin</strong> (di halaman utama):</p>
+                <p style="margin-left: 20px;">• Username: <code>admin</code> | Password: <code>admin123</code></p>
+                <p style="margin-left: 20px;">• Username: <code>dodod_admin</code> | Password: <code>saketi2025</code></p>
+                <p><strong>3. Navigasi antar halaman</strong> menggunakan menu di website</p>
+            </div>
+            
+            <div class="instruction">
+                <h6><i class="fas fa-server me-2"></i>Untuk Pengalaman Terbaik:</h6>
+                <p>1. Install Python dari <a href="https://python.org" target="_blank">python.org</a></p>
+                <p>2. Double-click file <code>jalankan-server.bat</code></p>
+                <p>3. Website akan terbuka di <code>http://localhost:8000</code></p>
+            </div>
+            
+            <div class="status">
+                <i class="fas fa-check-circle me-2"></i>
+                <strong>Website siap digunakan!</strong>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Add click tracking
+        document.querySelectorAll('.page-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const pageName = this.textContent.trim();
+                console.log(`Membuka halaman: ${pageName}`);
+                
+                // Add loading effect
+                this.style.opacity = '0.7';
+                this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Membuka...';
+                
+                // Allow navigation after short delay
+                setTimeout(() => {
+                    this.style.opacity = '1';
+                }, 100);
+            });
+        });
+        
+        // Show browser info
+        console.log('🌿 Dodod Saketi Website Launcher');
+        console.log('📱 Browser:', navigator.userAgent);
+        console.log('🔗 Protocol:', window.location.protocol);
+        console.log('📂 Path:', window.location.pathname);
+    </script>
+</body>
+</html>

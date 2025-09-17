@@ -1,0 +1,2960 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dodod Saketi - Portal Berita & Informasi</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c5530;
+            --secondary-color: #4a7c59;
+            --accent-color: #f39c12;
+            --light-bg: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            color: var(--primary-color) !important;
+            font-size: 1.5rem;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            z-index: 1;
+        }
+        
+        /* Hero Image Slideshow Styles */
+        .hero-image-slideshow {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        
+        .hero-image-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out;
+            border-radius: 20px;
+        }
+        
+        .hero-image-slide.active {
+            opacity: 1;
+        }
+        
+        .hero-indicators {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 2;
+        }
+        
+        .hero-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .hero-indicator:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: scale(1.1);
+        }
+        
+        .hero-indicator.active {
+            background: white;
+            transform: scale(1.2);
+        }
+        
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .news-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+        }        .news-image {
+            height: 200px;
+            background: linear-gradient(45deg, #ddd, #eee);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 1.2rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(44, 85, 48, 0.3);
+        }
+        
+        .social-footer {
+            background: var(--primary-color);
+            color: white;
+            padding: 40px 0;
+        }
+        
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+        }
+        
+        .social-icon:hover {
+            background: var(--accent-color);
+            transform: translateY(-3px);
+            color: white;
+        }
+        
+        .instagram:hover { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); }
+        .tiktok:hover { background: #000; }
+        .youtube:hover { background: #ff0000; }
+        
+        .section-title {
+            position: relative;
+            margin-bottom: 50px;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                Dodod Saketi
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#beranda">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#berita">Berita</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tentang">Tentang</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#kontak">Kontak</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <button class="btn btn-primary" onclick="showLoginModal()">
+                        <i class="fas fa-sign-in-alt me-1"></i>Login Admin
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="beranda" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <h1 class="display-4 fw-bold mb-4">Selamat Datang di Dodod Saketi</h1>
+                        <p class="lead mb-4">Portal berita dan informasi terpercaya untuk masyarakat Saketi. Dapatkan berita terkini, informasi penting, dan update terbaru dari daerah kita.</p>
+                        <div class="d-flex gap-3">
+                            <a href="semua-berita.html" class="btn btn-light btn-lg">Baca Berita</a>
+                            <button class="btn btn-outline-light btn-lg" onclick="checkLoginAndPost()">Posting Berita</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="text-center">
+                        <div style="width: 400px; height: 300px; border-radius: 20px; margin: 0 auto; position: relative; overflow: hidden;">
+                            <!-- Slideshow Container -->
+                            <div class="hero-image-slideshow" style="position: relative; width: 100%; height: 100%;">
+                                <div class="hero-image-slide active" style="background-image: url('image/image\ 1.png')"></div>
+                                <div class="hero-image-slide" style="background-image: url('image/image\ 2.png')"></div>
+                                <div class="hero-image-slide" style="background-image: url('image/image\ 3.png')"></div>
+                            </div>
+                            
+                            <!-- Slideshow Indicators -->
+                            <div class="hero-indicators">
+                                <div class="hero-indicator active" onclick="changeHeroSlide(1)"></div>
+                                <div class="hero-indicator" onclick="changeHeroSlide(2)"></div>
+                                <div class="hero-indicator" onclick="changeHeroSlide(3)"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="section-title">Fitur Utama</h2>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card feature-card h-100 text-center p-4">
+                        <div class="feature-icon">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <h4>Portal Berita</h4>
+                        <p class="text-muted">Baca dan posting berita terkini seputar Saketi dan sekitarnya dengan mudah dan cepat.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card h-100 text-center p-4">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>Komunitas</h4>
+                        <p class="text-muted">Bergabung dengan komunitas online masyarakat Saketi untuk berbagi informasi dan pengalaman.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card feature-card h-100 text-center p-4">
+                        <div class="feature-icon">
+                            <i class="fas fa-bullhorn"></i>
+                        </div>
+                        <h4>Pengumuman</h4>
+                        <p class="text-muted">Dapatkan pengumuman penting dari pemerintah daerah dan instansi terkait.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Section -->
+    <section id="berita" class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="section-title">Berita Terkini</h2>
+                </div>
+            </div>
+            <div class="row g-4" id="newsContainer">
+                <!-- Berita akan ditampilkan di sini secara dinamis -->
+            </div>
+            
+            <!-- No News Message (will be hidden when news are loaded) -->
+            <div id="noNewsMessage" class="text-center py-5">
+                <div class="mb-4">
+                    <i class="fas fa-newspaper" style="font-size: 4rem; color: #ddd;"></i>
+                </div>
+                <h4 class="text-muted mb-3">Belum Ada Berita</h4>
+                <p class="text-muted mb-4">Saat ini belum ada berita yang dipublikasikan. Admin dapat menambahkan berita baru melalui dashboard.</p>
+                <button class="btn btn-outline-primary" onclick="checkLoginAndPost()">
+                    <i class="fas fa-plus me-2"></i>Tambah Berita Pertama
+                </button>
+            </div>
+            
+            <div class="text-center mt-4" id="viewAllNewsBtn" style="display: none;">
+                <a href="semua-berita.html" class="btn btn-primary btn-lg">Lihat Semua Berita</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Post News Section -->
+    <section class="py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <h2 class="section-title">Posting Berita Anda</h2>
+                    <p class="lead text-muted mb-4">Punya berita atau informasi penting untuk dibagikan? Posting sekarang dan bantu masyarakat Saketi tetap update!</p>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="card p-4 h-100">
+                                <i class="fas fa-edit text-primary mb-3" style="font-size: 2rem;"></i>
+                                <h5>Tulis Berita</h5>
+                                <p class="text-muted">Buat artikel berita dengan editor yang mudah digunakan</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card p-4 h-100">
+                                <i class="fas fa-camera text-primary mb-3" style="font-size: 2rem;"></i>
+                                <h5>Upload Foto</h5>
+                                <p class="text-muted">Tambahkan foto untuk membuat berita lebih menarik</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-lg mt-4" onclick="checkLoginAndPost()">
+                        <i class="fas fa-plus me-2"></i>Mulai Posting Berita
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="tentang" class="py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h2 class="section-title text-start">Tentang Dodod Saketi</h2>
+                    <p class="lead">Platform digital yang menghubungkan masyarakat Saketi dengan informasi terkini dan terpercaya.</p>
+                    <p>Dodod Saketi hadir sebagai jembatan komunikasi antara masyarakat, pemerintah daerah, dan berbagai pihak terkait. Kami berkomitmen untuk menyediakan informasi yang akurat, terkini, dan bermanfaat bagi seluruh masyarakat Saketi.</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check text-success me-2"></i>Berita terpercaya dan terverifikasi</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Platform interaktif untuk masyarakat</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Update real-time informasi penting</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <div style="width: 100%; height: 350px; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                        <img src="image/image 1.png" alt="Tentang Dodod Saketi" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="social-footer" id="kontak">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h3 class="mb-4">
+                        Dodod Saketi
+                    </h3>
+                    <p class="mb-4">Portal berita dan informasi terpercaya untuk masyarakat Saketi. Tetap terhubung dengan komunitas melalui platform digital kami.</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Kontak</h5>
+                            <p><i class="fas fa-envelope me-2"></i>info@dodod-saketi.com</p>
+                            <p><i class="fas fa-phone me-2"></i>+62 123 456 7890</p>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Alamat</h5>
+                            <p><i class="fas fa-map-marker-alt me-2"></i>Saketi, Pandeglang<br>Banten, Indonesia</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>Menu</h5>
+                            <ul class="list-unstyled">
+                                <li><a href="#beranda" class="text-white-50 text-decoration-none">Beranda</a></li>
+                                <li><a href="#berita" class="text-white-50 text-decoration-none">Berita</a></li>
+                                <li><a href="#tentang" class="text-white-50 text-decoration-none">Tentang</a></li>
+                                <li><a href="#kontak" class="text-white-50 text-decoration-none">Kontak</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Ikuti Kami</h5>
+                            <div class="social-links">
+                                <a href="#" class="social-icon instagram">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="#" class="social-icon tiktok">
+                                    <i class="fab fa-tiktok"></i>
+                                </a>
+                                <a href="#" class="social-icon youtube">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                            </div>
+                            <p class="mt-3 text-white-50">Ikuti media sosial kami untuk update terbaru!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.2);">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="mb-0 text-white-50">&copy; 2025 Dodod Saketi. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-white-50 text-decoration-none me-3">Privacy Policy</a>
+                    <a href="#" class="text-white-50 text-decoration-none">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="loginModalLabel">
+                        <i class="fas fa-shield-alt me-2"></i>Login Admin
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username Admin</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                <input type="text" class="form-control" id="username" placeholder="Masukkan username admin" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                                <input type="password" class="form-control" id="password" placeholder="Masukkan password" required>
+                                <button class="btn btn-outline-secondary" type="button" onclick="togglePassword()">
+                                    <i class="fas fa-eye" id="passwordToggle"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="alert alert-danger d-none" id="loginError">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <span id="errorMessage"></span>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-sign-in-alt me-2"></i>Masuk sebagai Admin
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer bg-light">
+                    <small class="text-muted">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Hanya admin yang memiliki akses untuk mengelola website
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard Modal -->
+    <div class="modal fade" id="adminDashboard" tabindex="-1" aria-labelledby="adminDashboardLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="adminDashboardLabel">
+                        <i class="fas fa-tachometer-alt me-2"></i>Dashboard Admin
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" onclick="logout()"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row g-4">
+                        <div class="col-md-3">
+                            <div class="card bg-primary text-white">
+                                <div class="card-body">
+                                    <h5><i class="fas fa-newspaper me-2"></i>Total Berita</h5>
+                                    <h3 id="totalNews">0</h3>
+                                    <small><i class="fas fa-chart-line me-1"></i>Real-time</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-success text-white">
+                                <div class="card-body">
+                                    <h5><i class="fas fa-eye me-2"></i>Pengunjung Hari Ini</h5>
+                                    <h3 id="todayVisitors">0</h3>
+                                    <small><i class="fas fa-clock me-1"></i>Live Data</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-warning text-white">
+                                <div class="card-body">
+                                    <h5><i class="fas fa-clock me-2"></i>Berita Pending</h5>
+                                    <h3 id="pendingNews">0</h3>
+                                    <small><i class="fas fa-tasks me-1"></i>Moderasi</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-info text-white">
+                                <div class="card-body">
+                                    <h5><i class="fas fa-users me-2"></i>Pengunjung Bulan Ini</h5>
+                                    <h3 id="monthlyVisitors">0</h3>
+                                    <small><i class="fas fa-calendar me-1"></i>Bulan ini</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5><i class="fas fa-cogs me-2"></i>Menu Admin</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <button class="btn btn-outline-primary w-100" onclick="showAddNewsForm()">
+                                                <i class="fas fa-plus me-2"></i>Tambah Berita Baru
+                                            </button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-outline-success w-100" onclick="showManageNews()">
+                                                <i class="fas fa-edit me-2"></i>Kelola Berita
+                                            </button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-outline-warning w-100" onclick="showPendingNews()">
+                                                <i class="fas fa-clock me-2"></i>Review Berita
+                                            </button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-outline-info w-100" onclick="showSettings()">
+                                                <i class="fas fa-cog me-2"></i>Pengaturan Website
+                                            </button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-outline-secondary w-100" onclick="showUsers()">
+                                                <i class="fas fa-users me-2"></i>Kelola Pengguna
+                                            </button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-outline-dark w-100" onclick="showAnalytics()">
+                                                <i class="fas fa-chart-bar me-2"></i>Statistik Website
+                                            </button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-outline-success w-100" onclick="addTestData()">
+                                                <i class="fas fa-database me-2"></i>Tambah Data Test
+                                            </button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-outline-primary w-100" onclick="exportAnalytics()">
+                                                <i class="fas fa-download me-2"></i>Export Data
+                                            </button>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-outline-danger w-100" onclick="clearAllData()">
+                                                <i class="fas fa-trash-alt me-2"></i>Clear All Data
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" onclick="logout()">
+                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add News Modal -->
+    <div class="modal fade" id="addNewsModal" tabindex="-1" aria-labelledby="addNewsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="addNewsModalLabel">
+                        <i class="fas fa-plus me-2"></i>Tambah Berita Baru
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addNewsForm">
+                        <div class="mb-3">
+                            <label for="newsTitle" class="form-label">Judul Berita</label>
+                            <input type="text" class="form-control" id="newsTitle" placeholder="Masukkan judul berita" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newsCategory" class="form-label">Kategori</label>
+                            <select class="form-select" id="newsCategory" required>
+                                <option value="">Pilih Kategori</option>
+                                <option value="berita-utama">Berita Utama</option>
+                                <option value="pengumuman">Pengumuman</option>
+                                <option value="acara">Acara</option>
+                                <option value="pembangunan">Pembangunan</option>
+                                <option value="kesehatan">Kesehatan</option>
+                                <option value="pendidikan">Pendidikan</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newsImage" class="form-label">Gambar Berita</label>
+                            <input type="file" class="form-control" id="newsImage" accept="image/*" onchange="previewImage(this)">
+                            <div class="form-text">Format yang didukung: JPG, PNG, GIF (Max: 2MB)</div>
+                            <div id="imagePreview" class="mt-3" style="display: none;">
+                                <img id="previewImg" src="" alt="Preview" style="max-width: 100%; height: 200px; object-fit: cover; border-radius: 8px; border: 2px solid #ddd;">
+                                <button type="button" class="btn btn-sm btn-danger mt-2" onclick="removeImage()">
+                                    <i class="fas fa-times me-1"></i>Hapus Gambar
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newsContent" class="form-label">Isi Berita</label>
+                            <textarea class="form-control" id="newsContent" rows="8" placeholder="Tulis isi berita di sini..." required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newsAuthor" class="form-label">Penulis</label>
+                            <input type="text" class="form-control" id="newsAuthor" placeholder="Nama penulis berita" required>
+                        </div>
+                        <div class="alert alert-success d-none" id="newsSuccess">
+                            <i class="fas fa-check-circle me-2"></i>
+                            Berita berhasil ditambahkan!
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" onclick="saveNews()">
+                        <i class="fas fa-save me-2"></i>Simpan Berita
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analytics Modal -->
+    <div class="modal fade" id="analyticsModal" tabindex="-1" aria-labelledby="analyticsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title" id="analyticsModalLabel">
+                        <i class="fas fa-chart-bar me-2"></i>Analytics Dashboard - Real Time Data
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Stats Overview -->
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-3">
+                            <div class="card bg-gradient" style="background: linear-gradient(45deg, #28a745, #20c997);">
+                                <div class="card-body text-white text-center">
+                                    <i class="fas fa-users fa-2x mb-2"></i>
+                                    <h4 id="stats-total-visitors">0</h4>
+                                    <small>Total Pengunjung</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-gradient" style="background: linear-gradient(45deg, #007bff, #6f42c1);">
+                                <div class="card-body text-white text-center">
+                                    <i class="fas fa-eye fa-2x mb-2"></i>
+                                    <h4 id="stats-today-visitors">0</h4>
+                                    <small>Pengunjung Hari Ini</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-gradient" style="background: linear-gradient(45deg, #fd7e14, #e83e8c);">
+                                <div class="card-body text-white text-center">
+                                    <i class="fas fa-mouse-pointer fa-2x mb-2"></i>
+                                    <h4 id="stats-page-views">0</h4>
+                                    <small>Total Page Views</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card bg-gradient" style="background: linear-gradient(45deg, #dc3545, #fd7e14);">
+                                <div class="card-body text-white text-center">
+                                    <i class="fas fa-newspaper fa-2x mb-2"></i>
+                                    <h4 id="stats-news-count">0</h4>
+                                    <small>Total Berita Dibaca</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Analytics -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- Top News -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6><i class="fas fa-fire me-2 text-danger"></i>Berita Terpopuler</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div id="topNewsChart">
+                                        <div class="text-center text-muted">
+                                            <i class="fas fa-spinner fa-spin"></i> Loading...
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- Device Stats -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6><i class="fas fa-mobile-alt me-2 text-primary"></i>Statistik Perangkat</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div id="deviceStats">
+                                        <div class="text-center text-muted">
+                                            <i class="fas fa-spinner fa-spin"></i> Loading...
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <!-- Browser Stats -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6><i class="fas fa-globe me-2 text-info"></i>Browser Pengunjung</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div id="browserStats">
+                                        <div class="text-center text-muted">
+                                            <i class="fas fa-spinner fa-spin"></i> Loading...
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- Recent Activity -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h6><i class="fas fa-clock me-2 text-warning"></i>Aktivitas Terbaru</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div id="recentActivity" style="max-height: 300px; overflow-y: auto;">
+                                        <div class="text-center text-muted">
+                                            <i class="fas fa-spinner fa-spin"></i> Loading...
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="exportAnalytics()">
+                        <i class="fas fa-download me-2"></i>Export Data
+                    </button>
+                    <button type="button" class="btn btn-warning" onclick="addTestData()">
+                        <i class="fas fa-plus me-2"></i>Tambah Data Test
+                    </button>
+                    <button type="button" class="btn btn-danger" onclick="resetAnalytics()">
+                        <i class="fas fa-trash me-2"></i>Reset Data
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Manage News Modal -->
+    <div class="modal fade" id="manageNewsModal" tabindex="-1" aria-labelledby="manageNewsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="manageNewsModalLabel">
+                        <i class="fas fa-edit me-2"></i>Kelola Berita
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" id="searchNews" placeholder="Cari berita..." onkeyup="filterNews()">
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-select" id="filterCategory" onchange="filterNews()">
+                                <option value="">Semua Kategori</option>
+                                <option value="berita-utama">Berita Utama</option>
+                                <option value="pengumuman">Pengumuman</option>
+                                <option value="acara">Acara</option>
+                                <option value="pembangunan">Pembangunan</option>
+                                <option value="kesehatan">Kesehatan</option>
+                                <option value="pendidikan">Pendidikan</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Judul</th>
+                                    <th>Kategori</th>
+                                    <th>Penulis</th>
+                                    <th>Tanggal</th>
+                                    <th>Views</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="manageNewsTable">
+                                <!-- News will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit News Modal -->
+    <div class="modal fade" id="editNewsModal" tabindex="-1" aria-labelledby="editNewsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title" id="editNewsModalLabel">
+                        <i class="fas fa-edit me-2"></i>Edit Berita
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editNewsForm">
+                        <input type="hidden" id="editNewsId">
+                        <div class="mb-3">
+                            <label for="editNewsTitle" class="form-label">Judul Berita</label>
+                            <input type="text" class="form-control" id="editNewsTitle" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editNewsCategory" class="form-label">Kategori</label>
+                            <select class="form-select" id="editNewsCategory" required>
+                                <option value="">Pilih Kategori</option>
+                                <option value="berita-utama">Berita Utama</option>
+                                <option value="pengumuman">Pengumuman</option>
+                                <option value="acara">Acara</option>
+                                <option value="pembangunan">Pembangunan</option>
+                                <option value="kesehatan">Kesehatan</option>
+                                <option value="pendidikan">Pendidikan</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editNewsContent" class="form-label">Isi Berita</label>
+                            <textarea class="form-control" id="editNewsContent" rows="8" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editNewsAuthor" class="form-label">Penulis</label>
+                            <input type="text" class="form-control" id="editNewsAuthor" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="editNewsStatus" class="form-label">Status</label>
+                            <select class="form-select" id="editNewsStatus" required>
+                                <option value="published">Dipublikasikan</option>
+                                <option value="draft">Draft</option>
+                                <option value="pending">Pending Review</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-warning" onclick="updateNews()">
+                        <i class="fas fa-save me-2"></i>Update Berita
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending News Modal -->
+    <div class="modal fade" id="pendingNewsModal" tabindex="-1" aria-labelledby="pendingNewsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title" id="pendingNewsModalLabel">
+                        <i class="fas fa-clock me-2"></i>Review Berita Pending
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="pendingNewsList">
+                        <!-- Pending news will be loaded here -->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal fade" id="settingsModal" tabindex="-1" aria-labelledby="settingsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-info text-white">
+                    <h5 class="modal-title" id="settingsModalLabel">
+                        <i class="fas fa-cog me-2"></i>Pengaturan Website
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="accordion" id="settingsAccordion">
+                        <!-- General Settings -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="generalSettings">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGeneral">
+                                    <i class="fas fa-globe me-2"></i>Pengaturan Umum
+                                </button>
+                            </h2>
+                            <div id="collapseGeneral" class="accordion-collapse collapse show" data-bs-parent="#settingsAccordion">
+                                <div class="accordion-body">
+                                    <div class="mb-3">
+                                        <label for="siteTitle" class="form-label">Judul Website</label>
+                                        <input type="text" class="form-control" id="siteTitle" value="Dodod Saketi">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="siteDescription" class="form-label">Deskripsi Website</label>
+                                        <textarea class="form-control" id="siteDescription" rows="3">Portal berita dan informasi terpercaya untuk masyarakat Saketi</textarea>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="contactEmail" class="form-label">Email Kontak</label>
+                                        <input type="email" class="form-control" id="contactEmail" value="info@dodod-saketi.com">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Social Media Settings -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="socialSettings">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSocial">
+                                    <i class="fas fa-share-alt me-2"></i>Media Sosial
+                                </button>
+                            </h2>
+                            <div id="collapseSocial" class="accordion-collapse collapse" data-bs-parent="#settingsAccordion">
+                                <div class="accordion-body">
+                                    <div class="mb-3">
+                                        <label for="instagramUrl" class="form-label">Instagram URL</label>
+                                        <input type="url" class="form-control" id="instagramUrl" placeholder="https://instagram.com/dodod_saketi">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="tiktokUrl" class="form-label">TikTok URL</label>
+                                        <input type="url" class="form-control" id="tiktokUrl" placeholder="https://tiktok.com/@dodod_saketi">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="youtubeUrl" class="form-label">YouTube URL</label>
+                                        <input type="url" class="form-control" id="youtubeUrl" placeholder="https://youtube.com/c/DododSaketi">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- News Settings -->
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="newsSettings">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNews">
+                                    <i class="fas fa-newspaper me-2"></i>Pengaturan Berita
+                                </button>
+                            </h2>
+                            <div id="collapseNews" class="accordion-collapse collapse" data-bs-parent="#settingsAccordion">
+                                <div class="accordion-body">
+                                    <div class="mb-3">
+                                        <label for="newsPerPage" class="form-label">Berita per Halaman</label>
+                                        <select class="form-select" id="newsPerPage">
+                                            <option value="4">4 Berita</option>
+                                            <option value="6">6 Berita</option>
+                                            <option value="8">8 Berita</option>
+                                            <option value="12">12 Berita</option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="autoApprove">
+                                            <label class="form-check-label" for="autoApprove">
+                                                Auto-approve berita baru
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="enableComments">
+                                            <label class="form-check-label" for="enableComments">
+                                                Aktifkan sistem komentar
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-info" onclick="saveSettings()">
+                        <i class="fas fa-save me-2"></i>Simpan Pengaturan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Users Management Modal -->
+    <div class="modal fade" id="usersModal" tabindex="-1" aria-labelledby="usersModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-secondary text-white">
+                    <h5 class="modal-title" id="usersModalLabel">
+                        <i class="fas fa-users me-2"></i>Kelola Pengguna
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            <button class="btn btn-primary" onclick="showAddUserForm()">
+                                <i class="fas fa-plus me-2"></i>Tambah Pengguna Baru
+                            </button>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" id="searchUsers" placeholder="Cari pengguna..." onkeyup="filterUsers()">
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Role</th>
+                                    <th>Email</th>
+                                    <th>Last Login</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTable">
+                                <!-- Users will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="addUserModalLabel">
+                        <i class="fas fa-user-plus me-2"></i>Tambah Pengguna Baru
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addUserForm">
+                        <div class="mb-3">
+                            <label for="newUsername" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="newUsername" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="newPassword" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="newEmail" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="newRole" class="form-label">Role</label>
+                            <select class="form-select" id="newRole" required>
+                                <option value="">Pilih Role</option>
+                                <option value="admin">Admin</option>
+                                <option value="moderator">Moderator</option>
+                                <option value="editor">Editor</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary" onclick="addNewUser()">
+                        <i class="fas fa-save me-2"></i>Tambah Pengguna
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Analytics System -->
+    <script src="analytics.js"></script>
+    
+    <!-- Custom JS -->
+    <script>
+        // Global variables
+        let isLoggedIn = false;
+        let currentUser = null;
+
+        // Admin credentials (dalam aplikasi nyata, ini harus disimpan di server dengan enkripsi)
+        const adminCredentials = {
+            'admin': 'admin123',
+            'dodod_admin': 'saketi2025',
+            'superadmin': 'dodod@2025'
+        };
+
+        // Show login modal
+        function showLoginModal() {
+            const loginModal = new bootstrap.Modal(document.getElementById('loginModal'));
+            loginModal.show();
+        }
+
+        // Toggle password visibility
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const passwordToggle = document.getElementById('passwordToggle');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                passwordToggle.className = 'fas fa-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                passwordToggle.className = 'fas fa-eye';
+            }
+        }
+
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('loginError');
+            const errorMessage = document.getElementById('errorMessage');
+            
+            // Reset error state
+            errorDiv.classList.add('d-none');
+            
+            // Validate credentials
+            if (adminCredentials[username] && adminCredentials[username] === password) {
+                // Login successful
+                isLoggedIn = true;
+                currentUser = username;
+                
+                // Hide login modal
+                const loginModal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
+                loginModal.hide();
+                
+                // Update UI
+                updateLoginStatus();
+                
+                // Show success message
+                showAlert('Login berhasil! Selamat datang, ' + username, 'success');
+                
+                // Show admin dashboard
+                setTimeout(() => {
+                    showAdminDashboard();
+                }, 1000);
+                
+                // Reset form
+                this.reset();
+            } else {
+                // Login failed
+                errorMessage.textContent = 'Username atau password salah!';
+                errorDiv.classList.remove('d-none');
+                
+                // Shake animation for error
+                errorDiv.style.animation = 'shake 0.5s';
+                setTimeout(() => {
+                    errorDiv.style.animation = '';
+                }, 500);
+            }
+        });
+
+        // Update login status in navigation
+        function updateLoginStatus() {
+            const navButtons = document.querySelector('.navbar .d-flex');
+            
+            if (isLoggedIn) {
+                navButtons.innerHTML = `
+                    <div class="dropdown">
+                        <button class="btn btn-success dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user-shield me-1"></i>${currentUser}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#" onclick="showAdminDashboard()">
+                                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                            </a></li>
+                            <li><a class="dropdown-item" href="#" onclick="showAddNewsForm()">
+                                <i class="fas fa-plus me-2"></i>Tambah Berita
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="#" onclick="logout()">
+                                <i class="fas fa-sign-out-alt me-2"></i>Logout
+                            </a></li>
+                        </ul>
+                    </div>
+                `;
+            } else {
+                navButtons.innerHTML = `
+                    <button class="btn btn-primary" onclick="showLoginModal()">
+                        <i class="fas fa-sign-in-alt me-1"></i>Login Admin
+                    </button>
+                `;
+            }
+        }
+
+        // Show admin dashboard
+        function showAdminDashboard() {
+            if (!isLoggedIn) {
+                showAlert('Anda harus login terlebih dahulu!', 'warning');
+                return;
+            }
+            
+            const adminModal = new bootstrap.Modal(document.getElementById('adminDashboard'));
+            adminModal.show();
+            
+            // Update dashboard stats when modal opens
+            setTimeout(() => {
+                updateDashboardStats();
+            }, 300);
+        }
+
+        // Logout function
+        function logout() {
+            isLoggedIn = false;
+            currentUser = null;
+            updateLoginStatus();
+            
+            // Hide all modals
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                const modalInstance = bootstrap.Modal.getInstance(modal);
+                if (modalInstance) {
+                    modalInstance.hide();
+                }
+            });
+            
+            showAlert('Anda telah logout', 'info');
+        }
+
+        // Show add news form
+        function showAddNewsForm() {
+            if (!isLoggedIn) {
+                showAlert('Anda harus login sebagai admin!', 'warning');
+                return;
+            }
+            
+            const addNewsModal = new bootstrap.Modal(document.getElementById('addNewsModal'));
+            addNewsModal.show();
+        }
+
+        // Save news function
+        function saveNews() {
+            const title = document.getElementById('newsTitle').value;
+            const category = document.getElementById('newsCategory').value;
+            const content = document.getElementById('newsContent').value;
+            const author = document.getElementById('newsAuthor').value;
+            const imageFile = document.getElementById('newsImage').files[0];
+            
+            if (!title || !category || !content || !author) {
+                showAlert('Mohon lengkapi semua field yang wajib diisi!', 'warning');
+                return;
+            }
+            
+            // Check auto-approve setting
+            const settings = JSON.parse(localStorage.getItem('dodod_settings') || '{}');
+            const autoApprove = settings.autoApprove || false;
+            
+            // Process image if uploaded
+            let imageDataUrl = null;
+            
+            if (imageFile) {
+                // Check file size (max 2MB)
+                if (imageFile.size > 2 * 1024 * 1024) {
+                    showAlert('Ukuran gambar tidak boleh lebih dari 2MB!', 'warning');
+                    return;
+                }
+                
+                // Check file type
+                if (!imageFile.type.startsWith('image/')) {
+                    showAlert('File yang diupload harus berupa gambar!', 'warning');
+                    return;
+                }
+            }
+            
+            // Create news object
+            const newsData = {
+                id: 'news_' + Date.now(),
+                title: title,
+                category: category,
+                content: content,
+                author: author,
+                image: imageFile ? imageFile.name : null,
+                imageData: null, // Will be set after file reading
+                views: 0,
+                createdAt: new Date().toISOString(),
+                status: autoApprove ? 'published' : 'pending'
+            };
+            
+            // If image uploaded, convert to base64
+            if (imageFile) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    newsData.imageData = e.target.result;
+                    saveNewsData(newsData);
+                };
+                reader.readAsDataURL(imageFile);
+            } else {
+                saveNewsData(newsData);
+            }
+        }
+        
+        // Helper function to save news data
+        function saveNewsData(newsData) {
+            // Save to localStorage
+            let allNews = JSON.parse(localStorage.getItem('dodod_news') || '[]');
+            allNews.unshift(newsData); // Add to beginning (newest first)
+            localStorage.setItem('dodod_news', JSON.stringify(allNews));
+            
+            // Track in analytics only if published
+            if (newsData.status === 'published' && window.dododAnalytics) {
+                window.dododAnalytics.trackNewsView(newsData.id, newsData.title);
+            }
+            
+            // Show success
+            const successDiv = document.getElementById('newsSuccess');
+            successDiv.classList.remove('d-none');
+            
+            // Update news display
+            setTimeout(() => {
+                const addNewsModal = bootstrap.Modal.getInstance(document.getElementById('addNewsModal'));
+                addNewsModal.hide();
+                
+                if (newsData.status === 'published') {
+                    showAlert('Berita berhasil disimpan dan dipublikasikan!', 'success');
+                } else {
+                    showAlert('Berita berhasil disimpan dan menunggu review admin!', 'info');
+                }
+                
+                // Reset form
+                document.getElementById('addNewsForm').reset();
+                successDiv.classList.add('d-none');
+                
+                // Hide image preview
+                document.getElementById('imagePreview').style.display = 'none';
+                
+                // Refresh news display
+                loadNewsFromStorage();
+                updateDashboardStats();
+                
+            }, 2000);
+        }
+        
+        // Preview image function
+        function previewImage(input) {
+            const file = input.files[0];
+            const preview = document.getElementById('imagePreview');
+            const previewImg = document.getElementById('previewImg');
+            
+            if (file) {
+                // Check file size (max 2MB)
+                if (file.size > 2 * 1024 * 1024) {
+                    showAlert('Ukuran gambar tidak boleh lebih dari 2MB!', 'warning');
+                    input.value = '';
+                    preview.style.display = 'none';
+                    return;
+                }
+                
+                // Check file type
+                if (!file.type.startsWith('image/')) {
+                    showAlert('File yang diupload harus berupa gambar!', 'warning');
+                    input.value = '';
+                    preview.style.display = 'none';
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.style.display = 'none';
+            }
+        }
+        
+        // Remove image function
+        function removeImage() {
+            document.getElementById('newsImage').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+        }
+        
+        // Load news from localStorage and display
+        function loadNewsFromStorage() {
+            const allNews = JSON.parse(localStorage.getItem('dodod_news') || '[]');
+            // Filter only published news for public display
+            const publishedNews = allNews.filter(news => news.status === 'published' || !news.status);
+            const newsContainer = document.getElementById('newsContainer');
+            const noNewsMessage = document.getElementById('noNewsMessage');
+            const viewAllBtn = document.getElementById('viewAllNewsBtn');
+            
+            if (publishedNews.length === 0) {
+                // Show no news message
+                if (noNewsMessage) noNewsMessage.style.display = 'block';
+                if (viewAllBtn) viewAllBtn.style.display = 'none';
+                return;
+            }
+            
+            // Hide no news message
+            if (noNewsMessage) noNewsMessage.style.display = 'none';
+            if (viewAllBtn) viewAllBtn.style.display = 'block';
+            
+            // Show latest news (max 4 for homepage)
+            const latestNews = publishedNews.slice(0, 4);
+            let newsHTML = '';
+            
+            latestNews.forEach((news, index) => {
+                const date = new Date(news.createdAt).toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'long',
+                    year: 'numeric'
+                });
+                
+                const categoryBadge = getCategoryBadge(news.category);
+                
+                // Generate image HTML - show uploaded image or placeholder
+                const imageHTML = news.imageData ? 
+                    `<img src="${news.imageData}" alt="${news.title}" style="width: 100%; height: 250px; object-fit: cover;">` :
+                    `<div class="text-center" style="height: 250px; background: #f8f9fa; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                        <i class="fas fa-image fa-3x text-muted mb-2"></i>
+                        <p class="mb-0 text-muted">Tidak ada gambar</p>
+                    </div>`;
+                
+                const sideImageHTML = news.imageData ?
+                    `<img src="${news.imageData}" alt="${news.title}" style="width: 100%; height: 100px; object-fit: cover;">` :
+                    `<div style="height: 100px; background: #f8f9fa; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-image text-muted"></i>
+                    </div>`;
+                
+                if (index === 0) {
+                    // Main news (first/latest)
+                    newsHTML += `
+                        <div class="col-lg-8">
+                            <div class="card news-card">
+                                <div class="news-image">
+                                    ${imageHTML}
+                                </div>
+                                <div class="card-body">
+                                    ${categoryBadge}
+                                    <h3 class="card-title">${news.title}</h3>
+                                    <p class="card-text text-muted">${news.content.substring(0, 150)}...</p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <small class="text-muted">
+                                            <i class="fas fa-calendar me-1"></i>${date}
+                                            <i class="fas fa-user ms-3 me-1"></i>${news.author}
+                                            <i class="fas fa-eye ms-3 me-1"></i><span class="news-view-count" data-news-id="${news.id}">${news.views}</span>
+                                        </small>
+                                        <a href="detail-berita.html?id=${news.id}" class="btn btn-primary btn-sm">Baca Selengkapnya</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="row g-3">
+                    `;
+                } else {
+                    // Side news (smaller)
+                    newsHTML += `
+                        <div class="col-12">
+                            <a href="detail-berita.html?id=${news.id}" class="card news-card" style="text-decoration: none; color: inherit;">
+                                <div class="row g-0">
+                                    <div class="col-4">
+                                        ${sideImageHTML}
+                                    </div>
+                                    <div class="col-8">
+                                        <div class="card-body p-3">
+                                            <h6 class="card-title">${news.title}</h6>
+                                            <small class="text-muted">${date}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    `;
+                }
+            });
+            
+            // Close the side column if we have main news
+            if (latestNews.length > 0) {
+                newsHTML += `
+                            </div>
+                        </div>
+                `;
+            }
+            
+            newsContainer.innerHTML = newsHTML;
+        }
+        
+        // Get category badge HTML
+        function getCategoryBadge(category) {
+            const badges = {
+                'berita-utama': '<span class="badge bg-primary mb-2">Berita Utama</span>',
+                'pengumuman': '<span class="badge bg-warning mb-2">Pengumuman</span>',
+                'acara': '<span class="badge bg-success mb-2">Acara</span>',
+                'pembangunan': '<span class="badge bg-info mb-2">Pembangunan</span>',
+                'kesehatan': '<span class="badge bg-danger mb-2">Kesehatan</span>',
+                'pendidikan': '<span class="badge bg-secondary mb-2">Pendidikan</span>'
+            };
+            return badges[category] || '<span class="badge bg-primary mb-2">Berita</span>';
+        }
+        
+        // Add test data function
+        function addTestData() {
+            if (confirm('Tambah data test untuk demo? Ini akan menambahkan beberapa berita contoh dan data analytics.')) {
+                // Add news test data
+                const testNews = [
+                    {
+                        id: 'news_' + Date.now(),
+                        title: 'Pembangunan Infrastruktur Baru di Saketi',
+                        category: 'berita-utama',
+                        content: 'Pemerintah daerah meluncurkan proyek pembangunan infrastruktur terbaru untuk meningkatkan kualitas hidup masyarakat. Proyek ini meliputi perbaikan jalan, pembangunan jembatan, dan peningkatan fasilitas umum yang diharapkan dapat mendorong pertumbuhan ekonomi lokal.',
+                        author: 'Admin',
+                        views: Math.floor(Math.random() * 1000) + 500,
+                        createdAt: new Date(Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000).toISOString(),
+                        status: 'published'
+                    },
+                    {
+                        id: 'news_' + (Date.now() + 1),
+                        title: 'Festival Budaya Saketi 2025',
+                        category: 'acara',
+                        content: 'Festival budaya tahunan akan diselenggarakan dengan menampilkan berbagai kesenian tradisional daerah. Acara ini akan berlangsung selama 3 hari dan menghadirkan berbagai pertunjukan seni, pameran kuliner, dan lomba tradisional.',
+                        author: 'Admin',
+                        views: Math.floor(Math.random() * 800) + 300,
+                        createdAt: new Date(Date.now() - Math.random() * 5 * 24 * 60 * 60 * 1000).toISOString(),
+                        status: 'published'
+                    },
+                    {
+                        id: 'news_' + (Date.now() + 2),
+                        title: 'Program Kesehatan Gratis',
+                        category: 'kesehatan',
+                        content: 'Puskesmas Saketi mengadakan program pemeriksaan kesehatan gratis untuk seluruh masyarakat. Program ini meliputi pemeriksaan tekanan darah, gula darah, dan konsultasi kesehatan umum yang dapat diakses tanpa biaya.',
+                        author: 'Dr. Sari',
+                        views: Math.floor(Math.random() * 600) + 200,
+                        createdAt: new Date(Date.now() - Math.random() * 3 * 24 * 60 * 60 * 1000).toISOString(),
+                        status: 'published'
+                    },
+                    {
+                        id: 'news_' + (Date.now() + 3),
+                        title: 'Perbaikan Jalan Raya Utama',
+                        category: 'pembangunan',
+                        content: 'Dinas Pekerjaan Umum memulai perbaikan jalan raya utama yang menghubungkan pusat kota dengan desa-desa sekitar. Perbaikan ini diharapkan dapat melancarkan akses transportasi dan mendorong aktivitas ekonomi masyarakat.',
+                        author: 'Dinas PU',
+                        views: Math.floor(Math.random() * 700) + 250,
+                        createdAt: new Date(Date.now() - Math.random() * 2 * 24 * 60 * 60 * 1000).toISOString(),
+                        status: 'published'
+                    },
+                    {
+                        id: 'news_' + (Date.now() + 4),
+                        title: 'Peluncuran Program Bantuan UMKM',
+                        category: 'pengumuman',
+                        content: 'Pemerintah daerah mengumumkan program bantuan untuk pelaku usaha mikro, kecil, dan menengah. Program ini menyediakan bantuan modal usaha dan pelatihan kewirausahaan untuk mendorong pertumbuhan ekonomi lokal.',
+                        author: 'Dinas Koperasi',
+                        views: Math.floor(Math.random() * 900) + 400,
+                        createdAt: new Date(Date.now() - Math.random() * 1 * 24 * 60 * 60 * 1000).toISOString(),
+                        status: 'published'
+                    },
+                    {
+                        id: 'news_' + (Date.now() + 5),
+                        title: 'Rencana Pembangunan Taman Kota',
+                        category: 'pembangunan',
+                        content: 'Pemerintah daerah merencanakan pembangunan taman kota sebagai ruang terbuka hijau untuk masyarakat. Proyek ini masih dalam tahap perencanaan dan menunggu persetujuan dari berbagai pihak.',
+                        author: 'Admin',
+                        views: 0,
+                        createdAt: new Date().toISOString(),
+                        status: 'pending'
+                    }
+                ];
+                
+                // Save news to localStorage
+                let existingNews = JSON.parse(localStorage.getItem('dodod_news') || '[]');
+                existingNews = [...testNews, ...existingNews]; // Add test news to beginning
+                localStorage.setItem('dodod_news', JSON.stringify(existingNews));
+                
+                // Add analytics test data
+                if (window.dododAnalytics) {
+                    const analyticsData = window.dododAnalytics.addTestData();
+                    
+                    // Track views for published news
+                    testNews.forEach(news => {
+                        if (news.status === 'published') {
+                            for (let i = 0; i < news.views; i++) {
+                                if (Math.random() < 0.1) { // Only track 10% to avoid overwhelming
+                                    window.dododAnalytics.trackNewsView(news.id, news.title);
+                                }
+                            }
+                        }
+                    });
+                    
+                    showAlert(`${testNews.length} berita dan data analytics berhasil ditambahkan!`, 'success');
+                } else {
+                    showAlert(`${testNews.length} berita test berhasil ditambahkan!`, 'success');
+                }
+                
+                // Refresh displays
+                loadNewsFromStorage();
+                updateDashboardStats();
+                
+                // If analytics modal is open, refresh it
+                const analyticsModal = document.getElementById('analyticsModal');
+                if (analyticsModal && analyticsModal.classList.contains('show')) {
+                    setTimeout(() => {
+                        loadAnalyticsData();
+                    }, 500);
+                }
+            }
+        }
+        
+        // Clear all news (admin function)
+        function clearAllNews() {
+            if (confirm('Apakah Anda yakin ingin menghapus semua berita? Tindakan ini tidak dapat dibatalkan.')) {
+                localStorage.removeItem('dodod_news');
+                loadNewsFromStorage();
+                updateDashboardStats();
+                showAlert('Semua berita telah dihapus.', 'info');
+            }
+        }
+
+        // Admin menu functions
+        function showManageNews() {
+            const manageNewsModal = new bootstrap.Modal(document.getElementById('manageNewsModal'));
+            manageNewsModal.show();
+            loadManageNewsList();
+        }
+
+        function showPendingNews() {
+            const pendingNewsModal = new bootstrap.Modal(document.getElementById('pendingNewsModal'));
+            pendingNewsModal.show();
+            loadPendingNewsList();
+        }
+
+        function showSettings() {
+            const settingsModal = new bootstrap.Modal(document.getElementById('settingsModal'));
+            settingsModal.show();
+            loadCurrentSettings();
+        }
+
+        function showUsers() {
+            const usersModal = new bootstrap.Modal(document.getElementById('usersModal'));
+            usersModal.show();
+            loadUsersList();
+        }
+
+        function showAnalytics() {
+            const analyticsModal = new bootstrap.Modal(document.getElementById('analyticsModal'));
+            analyticsModal.show();
+            
+            // Load analytics data when modal opens
+            setTimeout(() => {
+                loadAnalyticsData();
+            }, 500);
+        }
+
+        // Load and display analytics data
+        function loadAnalyticsData() {
+            if (!window.dododAnalytics) {
+                console.error('Analytics system not loaded');
+                // Show message that analytics is not available
+                document.getElementById('topNewsChart').innerHTML = '<p class="text-muted text-center">Sistem analytics tidak tersedia</p>';
+                document.getElementById('deviceStats').innerHTML = '<p class="text-muted text-center">Sistem analytics tidak tersedia</p>';
+                document.getElementById('browserStats').innerHTML = '<p class="text-muted text-center">Sistem analytics tidak tersedia</p>';
+                document.getElementById('recentActivity').innerHTML = '<p class="text-muted text-center">Sistem analytics tidak tersedia</p>';
+                return;
+            }
+
+            try {
+                const summary = window.dododAnalytics.getAnalyticsSummary();
+                
+                // Update stats
+                document.getElementById('stats-total-visitors').textContent = summary.visitors.total || 0;
+                document.getElementById('stats-today-visitors').textContent = summary.visitors.today || 0;
+                document.getElementById('stats-page-views').textContent = summary.pageViews || 0;
+                
+                // Count total news views from all news
+                const allNews = JSON.parse(localStorage.getItem('dodod_news') || '[]');
+                const totalNewsViews = allNews.reduce((sum, news) => sum + (news.views || 0), 0);
+                document.getElementById('stats-news-count').textContent = totalNewsViews;
+
+                // Load top news
+                loadTopNews(summary.topNews);
+                
+                // Load device stats
+                loadDeviceStats(summary.deviceBreakdown);
+                
+                // Load browser stats
+                loadBrowserStats(summary.browserBreakdown);
+                
+                // Load recent activity
+                loadRecentActivity(summary.recentSessions);
+                
+            } catch (error) {
+                console.error('Error loading analytics data:', error);
+                showAlert('Error loading analytics data', 'warning');
+            }
+        }
+
+        // Load top news chart
+        function loadTopNews(topNews) {
+            const container = document.getElementById('topNewsChart');
+            
+            // If no analytics data, use news from localStorage
+            if (!topNews || topNews.length === 0) {
+                const allNews = JSON.parse(localStorage.getItem('dodod_news') || '[]');
+                const publishedNews = allNews.filter(news => news.status === 'published' || !news.status);
+                
+                if (publishedNews.length === 0) {
+                    container.innerHTML = '<p class="text-muted text-center">Belum ada data berita</p>';
+                    return;
+                }
+                
+                // Convert news to analytics format and sort by views
+                topNews = publishedNews
+                    .map(news => ({
+                        id: news.id,
+                        title: news.title,
+                        views: news.views || 0
+                    }))
+                    .sort((a, b) => b.views - a.views)
+                    .slice(0, 5);
+            }
+
+            if (topNews.length === 0) {
+                container.innerHTML = '<p class="text-muted text-center">Belum ada data berita</p>';
+                return;
+            }
+
+            let html = '';
+            const maxViews = topNews[0].views || 1; // Prevent division by zero
+            
+            topNews.forEach((news, index) => {
+                const percentage = Math.round((news.views / maxViews) * 100);
+                const truncatedTitle = news.title.length > 30 ? news.title.substring(0, 30) + '...' : news.title;
+                
+                html += `
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between">
+                            <small class="fw-bold" title="${news.title}">${truncatedTitle}</small>
+                            <small class="text-muted">${news.views} views</small>
+                        </div>
+                        <div class="progress" style="height: 8px;">
+                            <div class="progress-bar bg-gradient" style="width: ${percentage}%; background: linear-gradient(45deg, #28a745, #20c997);"></div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Load device stats
+        function loadDeviceStats(deviceStats) {
+            const container = document.getElementById('deviceStats');
+            
+            // If no analytics data, use default/sample data
+            if (!deviceStats || Object.keys(deviceStats).length === 0) {
+                deviceStats = {
+                    desktop: 0,
+                    mobile: 0,
+                    tablet: 0
+                };
+            }
+            
+            const total = Object.values(deviceStats).reduce((sum, count) => sum + count, 0);
+            
+            if (total === 0) {
+                container.innerHTML = '<p class="text-muted text-center">Belum ada data perangkat</p>';
+                return;
+            }
+
+            let html = '';
+            Object.entries(deviceStats).forEach(([device, count]) => {
+                const percentage = Math.round((count / total) * 100);
+                const icons = {
+                    desktop: 'fas fa-desktop',
+                    mobile: 'fas fa-mobile-alt',
+                    tablet: 'fas fa-tablet-alt'
+                };
+                
+                html += `
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span><i class="${icons[device]} me-2"></i>${device.charAt(0).toUpperCase() + device.slice(1)}</span>
+                        <span class="badge bg-primary">${count} (${percentage}%)</span>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Load browser stats
+        function loadBrowserStats(browserStats) {
+            const container = document.getElementById('browserStats');
+            
+            // If no analytics data, use default/sample data
+            if (!browserStats || Object.keys(browserStats).length === 0) {
+                browserStats = {};
+            }
+            
+            const total = Object.values(browserStats).reduce((sum, count) => sum + count, 0);
+            
+            if (total === 0) {
+                container.innerHTML = '<p class="text-muted text-center">Belum ada data browser</p>';
+                return;
+            }
+
+            let html = '';
+            Object.entries(browserStats)
+                .sort(([,a], [,b]) => b - a)
+                .forEach(([browser, count]) => {
+                    const percentage = Math.round((count / total) * 100);
+                    const colors = {
+                        Chrome: 'success',
+                        Firefox: 'warning',
+                        Safari: 'info',
+                        Edge: 'primary',
+                        Other: 'secondary'
+                    };
+                    
+                    html += `
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span>${browser}</span>
+                            <span class="badge bg-${colors[browser] || 'secondary'}">${count} (${percentage}%)</span>
+                        </div>
+                    `;
+                });
+            
+            container.innerHTML = html;
+        }
+
+        // Load recent activity
+        function loadRecentActivity(sessions) {
+            const container = document.getElementById('recentActivity');
+            
+            if (!sessions || sessions.length === 0) {
+                container.innerHTML = '<p class="text-muted text-center">Belum ada aktivitas terbaru</p>';
+                return;
+            }
+
+            let html = '';
+            sessions.forEach(session => {
+                const time = new Date(session.timestamp).toLocaleString('id-ID');
+                const page = session.page.replace(/.*\//, '') || 'index.html';
+                
+                html += `
+                    <div class="border-bottom pb-2 mb-2">
+                        <div class="d-flex justify-content-between">
+                            <small class="fw-bold">${page}</small>
+                            <small class="text-muted">${time}</small>
+                        </div>
+                        <small class="text-muted">Referrer: ${session.referrer === '' ? 'Direct' : session.referrer}</small>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+
+        // Utility function to show alerts
+        function showAlert(message, type) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+            alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.remove();
+                }
+            }, 5000);
+        }
+
+        // Check login status before posting
+        function checkLoginAndPost() {
+            if (isLoggedIn) {
+                showAddNewsForm();
+            } else {
+                showAlert('Anda harus login sebagai admin untuk posting berita!', 'warning');
+                setTimeout(() => {
+                    showLoginModal();
+                }, 1500);
+            }
+        }
+
+        // Show all news function
+        function showAllNews() {
+            // Show instruction to user
+            showAlert('Membuka halaman Semua Berita...', 'info');
+            
+            // Try to navigate after a short delay
+            setTimeout(() => {
+                try {
+                    window.location.href = 'semua-berita.html';
+                } catch (error) {
+                    // If navigation fails, show instruction
+                    showAlert('Silakan buka file "semua-berita.html" secara manual dari folder yang sama', 'warning');
+                }
+            }, 1000);
+        }
+
+        // Show news detail function
+        function showNewsDetail(title) {
+            // Show instruction to user
+            showAlert('Membuka detail berita...', 'info');
+            
+            // Try to navigate after a short delay
+            setTimeout(() => {
+                try {
+                    window.location.href = 'detail-berita.html';
+                } catch (error) {
+                    // If navigation fails, show instruction
+                    showAlert('Silakan buka file "detail-berita.html" secara manual dari folder yang sama', 'warning');
+                }
+            }, 1000);
+        }
+        
+        // Update dashboard stats
+        function updateDashboardStats() {
+            const analytics = window.dododAnalytics?.getAnalytics() || {};
+            const allNews = JSON.parse(localStorage.getItem('dodod_news') || '[]');
+            
+            // Update visitor count (main dashboard)
+            const todayVisitors = document.getElementById('todayVisitors');
+            if (todayVisitors) {
+                todayVisitors.textContent = analytics.todayVisitors || 0;
+            }
+            
+            // Update monthly visitors (main dashboard)
+            const monthlyVisitors = document.getElementById('monthlyVisitors');
+            if (monthlyVisitors) {
+                monthlyVisitors.textContent = analytics.monthlyVisitors || 0;
+            }
+            
+            // Update total news count (main dashboard)
+            const totalNewsElement = document.getElementById('totalNews');
+            if (totalNewsElement) {
+                totalNewsElement.textContent = allNews.length;
+            }
+            
+            // Update pending news count (main dashboard)
+            const pendingNewsElement = document.getElementById('pendingNews');
+            if (pendingNewsElement) {
+                const pendingCount = allNews.filter(news => news.status === 'pending').length;
+                pendingNewsElement.textContent = pendingCount;
+            }
+            
+            // Update analytics modal stats (if exists)
+            const visitorCount = document.getElementById('stats-total-visitors');
+            if (visitorCount) {
+                visitorCount.textContent = analytics.totalVisitors || 0;
+            }
+            
+            const todayVisitorsStats = document.getElementById('stats-today-visitors');
+            if (todayVisitorsStats) {
+                todayVisitorsStats.textContent = analytics.todayVisitors || 0;
+            }
+            
+            const pageViews = document.getElementById('stats-page-views');
+            if (pageViews) {
+                pageViews.textContent = analytics.totalPageViews || 0;
+            }
+            
+            const newsCount = document.getElementById('stats-news-count');
+            if (newsCount) {
+                const totalViews = allNews.reduce((sum, news) => sum + (news.views || 0), 0);
+                newsCount.textContent = totalViews;
+            }
+        }
+        
+        // Export analytics data
+        function exportAnalytics() {
+            try {
+                let dataToExport = {};
+                
+                if (window.dododAnalytics) {
+                    // Export analytics data
+                    dataToExport.analytics = window.dododAnalytics.getAnalyticsSummary();
+                    dataToExport.rawAnalytics = window.dododAnalytics.getData();
+                } else {
+                    dataToExport.analytics = null;
+                    dataToExport.rawAnalytics = null;
+                }
+                
+                // Export news data
+                dataToExport.news = JSON.parse(localStorage.getItem('dodod_news') || '[]');
+                
+                // Export settings
+                dataToExport.settings = JSON.parse(localStorage.getItem('dodod_settings') || '{}');
+                
+                // Export users
+                dataToExport.users = JSON.parse(localStorage.getItem('dodod_users') || '[]');
+                
+                // Add export metadata
+                dataToExport.exportInfo = {
+                    exportDate: new Date().toISOString(),
+                    exportedBy: currentUser || 'admin',
+                    websiteVersion: '1.0.0',
+                    totalNews: dataToExport.news.length,
+                    publishedNews: dataToExport.news.filter(n => n.status === 'published' || !n.status).length,
+                    pendingNews: dataToExport.news.filter(n => n.status === 'pending').length
+                };
+                
+                // Create and download file
+                const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `dodod-saketi-export-${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                showAlert('Data berhasil diexport!', 'success');
+                
+            } catch (error) {
+                console.error('Export error:', error);
+                showAlert('Error saat export data: ' + error.message, 'error');
+            }
+        }
+
+        // Reset analytics data
+        function resetAnalytics() {
+            if (confirm('Apakah Anda yakin ingin menghapus semua data analytics? Tindakan ini tidak dapat dibatalkan.')) {
+                if (window.dododAnalytics) {
+                    window.dododAnalytics.clearAllData();
+                }
+                // Also clear from localStorage directly
+                localStorage.removeItem('dodod_analytics');
+                
+                showAlert('Data analytics telah direset', 'info');
+                
+                // Refresh analytics display if modal is open
+                const analyticsModal = document.getElementById('analyticsModal');
+                if (analyticsModal && analyticsModal.classList.contains('show')) {
+                    setTimeout(() => {
+                        loadAnalyticsData();
+                    }, 500);
+                }
+                
+                updateDashboardStats();
+            }
+        }
+        
+        // Clear all website data (admin function)
+        function clearAllData() {
+            if (confirm('PERINGATAN: Ini akan menghapus SEMUA data website (berita, analytics, pengaturan, pengguna). Apakah Anda yakin?')) {
+                if (confirm('Konfirmasi sekali lagi: Semua data akan hilang dan tidak dapat dikembalikan!')) {
+                    // Clear all localStorage data
+                    localStorage.removeItem('dodod_news');
+                    localStorage.removeItem('dodod_analytics');
+                    localStorage.removeItem('dodod_settings');
+                    localStorage.removeItem('dodod_users');
+                    
+                    // Reinitialize analytics
+                    if (window.dododAnalytics) {
+                        window.dododAnalytics.initializeStorage();
+                    }
+                    
+                    // Reset dashboard stats to 0 immediately
+                    document.getElementById('totalNews').textContent = '0';
+                    document.getElementById('todayVisitors').textContent = '0';
+                    document.getElementById('pendingNews').textContent = '0';
+                    document.getElementById('monthlyVisitors').textContent = '0';
+                    
+                    // Update analytics stats if available
+                    const statsElements = ['stats-total-visitors', 'stats-today-visitors', 'stats-page-views', 'stats-news-count'];
+                    statsElements.forEach(id => {
+                        const element = document.getElementById(id);
+                        if (element) element.textContent = '0';
+                    });
+                    
+                    // Refresh all displays
+                    loadNewsFromStorage();
+                    updateDashboardStats();
+                    
+                    // Close any open modals
+                    const modals = document.querySelectorAll('.modal.show');
+                    modals.forEach(modal => {
+                        const modalInstance = bootstrap.Modal.getInstance(modal);
+                        if (modalInstance) {
+                            modalInstance.hide();
+                        }
+                    });
+                    
+                    showAlert('Semua data telah dihapus dan direset ke 0', 'success');
+                    
+                    // Refresh analytics display if modal is open
+                    setTimeout(() => {
+                        const analyticsModal = document.getElementById('analyticsModal');
+                        if (analyticsModal && analyticsModal.classList.contains('show')) {
+                            loadAnalyticsData();
+                        }
+                    }, 1000);
+                }
+            }
+        }
+
+        // ==========================================
+        // MANAGE NEWS FUNCTIONS
+        // ==========================================
+        
+        function loadManageNewsList() {
+            const allNews = JSON.parse(localStorage.getItem('dodod_news') || '[]');
+            const tableBody = document.getElementById('manageNewsTable');
+            
+            if (allNews.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">
+                            <i class="fas fa-newspaper fa-2x mb-2"></i><br>
+                            Belum ada berita yang tersedia
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            let html = '';
+            allNews.forEach(news => {
+                const date = new Date(news.createdAt).toLocaleDateString('id-ID');
+                const statusBadge = getStatusBadge(news.status || 'published');
+                const categoryBadge = getCategoryBadge(news.category);
+                
+                html += `
+                    <tr>
+                        <td>
+                            <strong>${news.title}</strong><br>
+                            <small class="text-muted">${news.content.substring(0, 50)}...</small>
+                        </td>
+                        <td>${categoryBadge}</td>
+                        <td>${news.author}</td>
+                        <td>${date}</td>
+                        <td><span class="badge bg-info">${news.views || 0}</span></td>
+                        <td>${statusBadge}</td>
+                        <td>
+                            <div class="btn-group-vertical btn-group-sm">
+                                <button class="btn btn-outline-warning btn-sm" onclick="editNews('${news.id}')">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-outline-danger btn-sm" onclick="deleteNews('${news.id}')">
+                                    <i class="fas fa-trash"></i> Hapus
+                                </button>
+                                <button class="btn btn-outline-info btn-sm" onclick="viewNews('${news.id}')">
+                                    <i class="fas fa-eye"></i> Lihat
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            tableBody.innerHTML = html;
+        }
+        
+        function getStatusBadge(status) {
+            const badges = {
+                'published': '<span class="badge bg-success">Dipublikasikan</span>',
+                'draft': '<span class="badge bg-secondary">Draft</span>',
+                'pending': '<span class="badge bg-warning">Pending</span>',
+                'archived': '<span class="badge bg-dark">Arsip</span>'
+            };
+            return badges[status] || '<span class="badge bg-primary">Published</span>';
+        }
+        
+        function filterNews() {
+            const searchTerm = document.getElementById('searchNews').value.toLowerCase();
+            const categoryFilter = document.getElementById('filterCategory').value;
+            const allNews = JSON.parse(localStorage.getItem('dodod_news') || '[]');
+            
+            let filteredNews = allNews;
+            
+            if (searchTerm) {
+                filteredNews = filteredNews.filter(news => 
+                    news.title.toLowerCase().includes(searchTerm) ||
+                    news.content.toLowerCase().includes(searchTerm) ||
+                    news.author.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            if (categoryFilter) {
+                filteredNews = filteredNews.filter(news => news.category === categoryFilter);
+            }
+            
+            // Update table with filtered results
+            const tableBody = document.getElementById('manageNewsTable');
+            let html = '';
+            
+            if (filteredNews.length === 0) {
+                html = `
+                    <tr>
+                        <td colspan="7" class="text-center text-muted">
+                            <i class="fas fa-search fa-2x mb-2"></i><br>
+                            Tidak ada berita yang sesuai dengan filter
+                        </td>
+                    </tr>
+                `;
+            } else {
+                filteredNews.forEach(news => {
+                    const date = new Date(news.createdAt).toLocaleDateString('id-ID');
+                    const statusBadge = getStatusBadge(news.status || 'published');
+                    const categoryBadge = getCategoryBadge(news.category);
+                    
+                    html += `
+                        <tr>
+                            <td>
+                                <strong>${news.title}</strong><br>
+                                <small class="text-muted">${news.content.substring(0, 50)}...</small>
+                            </td>
+                            <td>${categoryBadge}</td>
+                            <td>${news.author}</td>
+                            <td>${date}</td>
+                            <td><span class="badge bg-info">${news.views || 0}</span></td>
+                            <td>${statusBadge}</td>
+                            <td>
+                                <div class="btn-group-vertical btn-group-sm">
+                                    <button class="btn btn-outline-warning btn-sm" onclick="editNews('${news.id}')">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-outline-danger btn-sm" onclick="deleteNews('${news.id}')">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
+                                    <button class="btn btn-outline-info btn-sm" onclick="viewNews('${news.id}')">
+                                        <i class="fas fa-eye"></i> Lihat
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+            
+            tableBody.innerHTML = html;
+        }
+        
+        function editNews(newsId) {
+            const allNews = JSON.parse(localStorage.getItem('dodod_news') || '[]');
+            const news = allNews.find(n => n.id === newsId);
+            
+            if (!news) {
+                showAlert('Berita tidak ditemukan!', 'error');
+                return;
+            }
+            
+            // Fill edit form
+            document.getElementById('editNewsId').value = news.id;
+            document.getElementById('editNewsTitle').value = news.title;
+            document.getElementById('editNewsCategory').value = news.category;
+            document.getElementById('editNewsContent').value = news.content;
+            document.getElementById('editNewsAuthor').value = news.author;
+            document.getElementById('editNewsStatus').value = news.status || 'published';
+            
+            // Show edit modal
+            const editModal = new bootstrap.Modal(document.getElementById('editNewsModal'));
+            editModal.show();
+        }
+        
+        function updateNews() {
+            const newsId = document.getElementById('editNewsId').value;
+            const title = document.getElementById('editNewsTitle').value;
+            const category = document.getElementById('editNewsCategory').value;
+            const content = document.getElementById('editNewsContent').value;
+            const author = document.getElementById('editNewsAuthor').value;
+            const status = document.getElementById('editNewsStatus').value;
+            
+            if (!title || !category || !content || !author) {
+                showAlert('Mohon lengkapi semua field!', 'warning');
+                return;
+            }
+            
+            let allNews = JSON.parse(localStorage.getItem('dodod_news') || '[]');
+            const newsIndex = allNews.findIndex(n => n.id === newsId);
+            
+            if (newsIndex === -1) {
+                showAlert('Berita tidak ditemukan!', 'error');
+                return;
+            }
+            
+            // Update news data
+            allNews[newsIndex] = {
+                ...allNews[newsIndex],
+                title: title,
+                category: category,
+                content: content,
+                author: author,
+                status: status,
+                updatedAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('dodod_news', JSON.stringify(allNews));
+            
+            // Close modal and refresh
+            const editModal = bootstrap.Modal.getInstance(document.getElementById('editNewsModal'));
+            editModal.hide();
+            
+            loadManageNewsList();
+            loadNewsFromStorage();
+            showAlert('Berita berhasil diupdate!', 'success');
+        }
+        
+        function deleteNews(newsId) {
+            if (!confirm('Apakah Anda yakin ingin menghapus berita ini? Tindakan ini tidak dapat dibatalkan.')) {
+                return;
+            }
+            
+            let allNews = JSON.parse(localStorage.getItem('dodod_news') || '[]');
+            allNews = allNews.filter(n => n.id !== newsId);
+            localStorage.setItem('dodod_news', JSON.stringify(allNews));
+            
+            loadManageNewsList();
+            loadNewsFromStorage();
+            updateDashboardStats();
+            showAlert('Berita berhasil dihapus!', 'success');
+        }
+        
+        function viewNews(newsId) {
+            showAlert('Membuka detail berita...', 'info');
+            // In a real implementation, this would navigate to detail page
+        }
+
+        // ==========================================
+        // PENDING NEWS FUNCTIONS
+        // ==========================================
+        
+        function loadPendingNewsList() {
+            const allNews = JSON.parse(localStorage.getItem('dodod_news') || '[]');
+            const pendingNews = allNews.filter(news => news.status === 'pending');
+            const container = document.getElementById('pendingNewsList');
+            
+            if (pendingNews.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center text-muted py-5">
+                        <i class="fas fa-clock fa-3x mb-3"></i>
+                        <h5>Tidak ada berita pending</h5>
+                        <p>Semua berita telah direview atau belum ada submission baru</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            let html = '';
+            pendingNews.forEach(news => {
+                const date = new Date(news.createdAt).toLocaleDateString('id-ID');
+                const categoryBadge = getCategoryBadge(news.category);
+                
+                html += `
+                    <div class="card mb-3">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-0">${news.title}</h6>
+                                <small class="text-muted">oleh ${news.author} • ${date}</small>
+                            </div>
+                            ${categoryBadge}
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">${news.content.substring(0, 200)}...</p>
+                            <div class="btn-group">
+                                <button class="btn btn-success btn-sm" onclick="approveNews('${news.id}')">
+                                    <i class="fas fa-check me-1"></i>Setujui
+                                </button>
+                                <button class="btn btn-warning btn-sm" onclick="editNews('${news.id}')">
+                                    <i class="fas fa-edit me-1"></i>Edit
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="rejectNews('${news.id}')">
+                                    <i class="fas fa-times me-1"></i>Tolak
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        function approveNews(newsId) {
+            let allNews = JSON.parse(localStorage.getItem('dodod_news') || '[]');
+            const newsIndex = allNews.findIndex(n => n.id === newsId);
+            
+            if (newsIndex !== -1) {
+                allNews[newsIndex].status = 'published';
+                allNews[newsIndex].approvedAt = new Date().toISOString();
+                localStorage.setItem('dodod_news', JSON.stringify(allNews));
+                
+                loadPendingNewsList();
+                loadNewsFromStorage();
+                updateDashboardStats();
+                showAlert('Berita berhasil disetujui dan dipublikasikan!', 'success');
+            }
+        }
+        
+        function rejectNews(newsId) {
+            if (!confirm('Apakah Anda yakin ingin menolak berita ini?')) {
+                return;
+            }
+            
+            let allNews = JSON.parse(localStorage.getItem('dodod_news') || '[]');
+            const newsIndex = allNews.findIndex(n => n.id === newsId);
+            
+            if (newsIndex !== -1) {
+                allNews[newsIndex].status = 'rejected';
+                allNews[newsIndex].rejectedAt = new Date().toISOString();
+                localStorage.setItem('dodod_news', JSON.stringify(allNews));
+                
+                loadPendingNewsList();
+                showAlert('Berita telah ditolak', 'info');
+            }
+        }
+
+        // ==========================================
+        // SETTINGS FUNCTIONS
+        // ==========================================
+        
+        function loadCurrentSettings() {
+            const settings = JSON.parse(localStorage.getItem('dodod_settings') || '{}');
+            
+            // Load general settings
+            document.getElementById('siteTitle').value = settings.siteTitle || 'Dodod Saketi';
+            document.getElementById('siteDescription').value = settings.siteDescription || 'Portal berita dan informasi terpercaya untuk masyarakat Saketi';
+            document.getElementById('contactEmail').value = settings.contactEmail || 'info@dodod-saketi.com';
+            
+            // Load social media settings
+            document.getElementById('instagramUrl').value = settings.instagramUrl || '';
+            document.getElementById('tiktokUrl').value = settings.tiktokUrl || '';
+            document.getElementById('youtubeUrl').value = settings.youtubeUrl || '';
+            
+            // Load news settings
+            document.getElementById('newsPerPage').value = settings.newsPerPage || '4';
+            document.getElementById('autoApprove').checked = settings.autoApprove || false;
+            document.getElementById('enableComments').checked = settings.enableComments || false;
+        }
+        
+        function saveSettings() {
+            const settings = {
+                siteTitle: document.getElementById('siteTitle').value,
+                siteDescription: document.getElementById('siteDescription').value,
+                contactEmail: document.getElementById('contactEmail').value,
+                instagramUrl: document.getElementById('instagramUrl').value,
+                tiktokUrl: document.getElementById('tiktokUrl').value,
+                youtubeUrl: document.getElementById('youtubeUrl').value,
+                newsPerPage: document.getElementById('newsPerPage').value,
+                autoApprove: document.getElementById('autoApprove').checked,
+                enableComments: document.getElementById('enableComments').checked,
+                updatedAt: new Date().toISOString()
+            };
+            
+            localStorage.setItem('dodod_settings', JSON.stringify(settings));
+            
+            // Apply settings immediately
+            applySettings(settings);
+            
+            const settingsModal = bootstrap.Modal.getInstance(document.getElementById('settingsModal'));
+            settingsModal.hide();
+            
+            showAlert('Pengaturan berhasil disimpan!', 'success');
+        }
+        
+        function applySettings(settings) {
+            // Update site title
+            document.title = settings.siteTitle + ' - Portal Berita & Informasi';
+            
+            // Update navbar brand
+            const navbarBrand = document.querySelector('.navbar-brand');
+            if (navbarBrand) {
+                navbarBrand.textContent = settings.siteTitle;
+            }
+            
+            // Update social media links
+            const socialLinks = {
+                instagram: settings.instagramUrl,
+                tiktok: settings.tiktokUrl,
+                youtube: settings.youtubeUrl
+            };
+            
+            Object.entries(socialLinks).forEach(([platform, url]) => {
+                const link = document.querySelector(`.social-icon.${platform}`);
+                if (link && url) {
+                    link.href = url;
+                }
+            });
+        }
+
+        // ==========================================
+        // USERS MANAGEMENT FUNCTIONS
+        // ==========================================
+        
+        function loadUsersList() {
+            const users = JSON.parse(localStorage.getItem('dodod_users') || '[]');
+            const tableBody = document.getElementById('usersTable');
+            
+            // Add default admin users if none exist
+            if (users.length === 0) {
+                const defaultUsers = [
+                    {
+                        id: 'user_1',
+                        username: 'admin',
+                        password: 'admin123', // In real app, this should be hashed
+                        email: 'admin@dodod-saketi.com',
+                        role: 'admin',
+                        status: 'active',
+                        createdAt: new Date().toISOString(),
+                        lastLogin: new Date().toISOString()
+                    },
+                    {
+                        id: 'user_2',
+                        username: 'dodod_admin',
+                        password: 'saketi2025',
+                        email: 'dodod@dodod-saketi.com',
+                        role: 'admin',
+                        status: 'active',
+                        createdAt: new Date().toISOString(),
+                        lastLogin: null
+                    },
+                    {
+                        id: 'user_3',
+                        username: 'superadmin',
+                        password: 'dodod@2025',
+                        email: 'super@dodod-saketi.com',
+                        role: 'admin',
+                        status: 'active',
+                        createdAt: new Date().toISOString(),
+                        lastLogin: null
+                    }
+                ];
+                localStorage.setItem('dodod_users', JSON.stringify(defaultUsers));
+                users.push(...defaultUsers);
+            }
+            
+            let html = '';
+            users.forEach(user => {
+                const lastLogin = user.lastLogin ? new Date(user.lastLogin).toLocaleDateString('id-ID') : 'Belum pernah login';
+                const statusBadge = user.status === 'active' ? 
+                    '<span class="badge bg-success">Aktif</span>' : 
+                    '<span class="badge bg-danger">Non-aktif</span>';
+                const roleBadge = getRoleBadge(user.role);
+                
+                html += `
+                    <tr>
+                        <td><strong>${user.username}</strong></td>
+                        <td>${roleBadge}</td>
+                        <td>${user.email}</td>
+                        <td>${lastLogin}</td>
+                        <td>${statusBadge}</td>
+                        <td>
+                            <div class="btn-group-vertical btn-group-sm">
+                                <button class="btn btn-outline-warning btn-sm" onclick="editUser('${user.id}')">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button class="btn btn-outline-${user.status === 'active' ? 'danger' : 'success'} btn-sm" onclick="toggleUserStatus('${user.id}')">
+                                    <i class="fas fa-${user.status === 'active' ? 'ban' : 'check'}"></i> ${user.status === 'active' ? 'Non-aktifkan' : 'Aktifkan'}
+                                </button>
+                                ${user.username !== 'admin' ? `<button class="btn btn-outline-danger btn-sm" onclick="deleteUser('${user.id}')">
+                                    <i class="fas fa-trash"></i> Hapus
+                                </button>` : ''}
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            
+            tableBody.innerHTML = html;
+        }
+        
+        function getRoleBadge(role) {
+            const badges = {
+                'admin': '<span class="badge bg-danger">Admin</span>',
+                'moderator': '<span class="badge bg-warning">Moderator</span>',
+                'editor': '<span class="badge bg-info">Editor</span>'
+            };
+            return badges[role] || '<span class="badge bg-secondary">User</span>';
+        }
+        
+        function showAddUserForm() {
+            const addUserModal = new bootstrap.Modal(document.getElementById('addUserModal'));
+            addUserModal.show();
+        }
+        
+        function addNewUser() {
+            const username = document.getElementById('newUsername').value;
+            const password = document.getElementById('newPassword').value;
+            const email = document.getElementById('newEmail').value;
+            const role = document.getElementById('newRole').value;
+            
+            if (!username || !password || !email || !role) {
+                showAlert('Mohon lengkapi semua field!', 'warning');
+                return;
+            }
+            
+            const users = JSON.parse(localStorage.getItem('dodod_users') || '[]');
+            
+            // Check if username already exists
+            if (users.some(user => user.username === username)) {
+                showAlert('Username sudah digunakan!', 'error');
+                return;
+            }
+            
+            const newUser = {
+                id: 'user_' + Date.now(),
+                username: username,
+                password: password, // In real app, this should be hashed
+                email: email,
+                role: role,
+                status: 'active',
+                createdAt: new Date().toISOString(),
+                lastLogin: null
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('dodod_users', JSON.stringify(users));
+            
+            // Close modal and refresh
+            const addUserModal = bootstrap.Modal.getInstance(document.getElementById('addUserModal'));
+            addUserModal.hide();
+            
+            document.getElementById('addUserForm').reset();
+            loadUsersList();
+            showAlert('Pengguna baru berhasil ditambahkan!', 'success');
+        }
+        
+        function toggleUserStatus(userId) {
+            let users = JSON.parse(localStorage.getItem('dodod_users') || '[]');
+            const userIndex = users.findIndex(u => u.id === userId);
+            
+            if (userIndex !== -1) {
+                users[userIndex].status = users[userIndex].status === 'active' ? 'inactive' : 'active';
+                localStorage.setItem('dodod_users', JSON.stringify(users));
+                
+                loadUsersList();
+                showAlert(`Status pengguna berhasil diubah menjadi ${users[userIndex].status}!`, 'success');
+            }
+        }
+        
+        function deleteUser(userId) {
+            if (!confirm('Apakah Anda yakin ingin menghapus pengguna ini?')) {
+                return;
+            }
+            
+            let users = JSON.parse(localStorage.getItem('dodod_users') || '[]');
+            users = users.filter(u => u.id !== userId);
+            localStorage.setItem('dodod_users', JSON.stringify(users));
+            
+            loadUsersList();
+            showAlert('Pengguna berhasil dihapus!', 'success');
+        }
+        
+        function filterUsers() {
+            const searchTerm = document.getElementById('searchUsers').value.toLowerCase();
+            const users = JSON.parse(localStorage.getItem('dodod_users') || '[]');
+            
+            const filteredUsers = users.filter(user => 
+                user.username.toLowerCase().includes(searchTerm) ||
+                user.email.toLowerCase().includes(searchTerm) ||
+                user.role.toLowerCase().includes(searchTerm)
+            );
+            
+            // Update table with filtered results
+            const tableBody = document.getElementById('usersTable');
+            let html = '';
+            
+            if (filteredUsers.length === 0) {
+                html = `
+                    <tr>
+                        <td colspan="6" class="text-center text-muted">
+                            <i class="fas fa-search fa-2x mb-2"></i><br>
+                            Tidak ada pengguna yang sesuai dengan pencarian
+                        </td>
+                    </tr>
+                `;
+            } else {
+                filteredUsers.forEach(user => {
+                    const lastLogin = user.lastLogin ? new Date(user.lastLogin).toLocaleDateString('id-ID') : 'Belum pernah login';
+                    const statusBadge = user.status === 'active' ? 
+                        '<span class="badge bg-success">Aktif</span>' : 
+                        '<span class="badge bg-danger">Non-aktif</span>';
+                    const roleBadge = getRoleBadge(user.role);
+                    
+                    html += `
+                        <tr>
+                            <td><strong>${user.username}</strong></td>
+                            <td>${roleBadge}</td>
+                            <td>${user.email}</td>
+                            <td>${lastLogin}</td>
+                            <td>${statusBadge}</td>
+                            <td>
+                                <div class="btn-group-vertical btn-group-sm">
+                                    <button class="btn btn-outline-warning btn-sm" onclick="editUser('${user.id}')">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button class="btn btn-outline-${user.status === 'active' ? 'danger' : 'success'} btn-sm" onclick="toggleUserStatus('${user.id}')">
+                                        <i class="fas fa-${user.status === 'active' ? 'ban' : 'check'}"></i> ${user.status === 'active' ? 'Non-aktifkan' : 'Aktifkan'}
+                                    </button>
+                                    ${user.username !== 'admin' ? `<button class="btn btn-outline-danger btn-sm" onclick="deleteUser('${user.id}')">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>` : ''}
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+            
+            tableBody.innerHTML = html;
+        }
+        
+        // Hero Image Slideshow Functionality
+        let currentHeroSlide = 0;
+        let heroSlideInterval;        function showHeroSlide(index) {
+            const slides = document.querySelectorAll('.hero-image-slide');
+            const indicators = document.querySelectorAll('.hero-indicator');
+            
+            // Remove active class from all slides and indicators
+            slides.forEach(slide => slide.classList.remove('active'));
+            indicators.forEach(indicator => indicator.classList.remove('active'));
+            
+            // Add active class to current slide and indicator
+            if (slides[index]) {
+                slides[index].classList.add('active');
+                indicators[index].classList.add('active');
+            }
+        }
+        
+        function nextHeroSlide() {
+            const slides = document.querySelectorAll('.hero-image-slide');
+            currentHeroSlide = (currentHeroSlide + 1) % slides.length;
+            showHeroSlide(currentHeroSlide);
+        }
+        
+        function changeHeroSlide(slideNumber) {
+            currentHeroSlide = slideNumber - 1;
+            showHeroSlide(currentHeroSlide);
+            
+            // Restart the automatic slideshow
+            clearInterval(heroSlideInterval);
+            startHeroSlideshow();
+        }
+        
+        function startHeroSlideshow() {
+            heroSlideInterval = setInterval(nextHeroSlide, 4000); // Change slide every 4 seconds
+        }
+        
+        function pauseHeroSlideshow() {
+            clearInterval(heroSlideInterval);
+        }
+        
+        function resumeHeroSlideshow() {
+            startHeroSlideshow();
+        }
+
+        // Load news when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize hero slideshow
+            startHeroSlideshow();
+            
+            // Load news from localStorage
+            loadNewsFromStorage();
+            
+            // Load and apply settings
+            const settings = JSON.parse(localStorage.getItem('dodod_settings') || '{}');
+            if (Object.keys(settings).length > 0) {
+                applySettings(settings);
+            }
+            
+            // Update dashboard stats
+            setTimeout(() => {
+                updateDashboardStats();
+            }, 500);
+            
+            // Add hover events to pause hero slideshow
+            const heroImageContainer = document.querySelector('.hero-image-slideshow');
+            if (heroImageContainer) {
+                heroImageContainer.addEventListener('mouseenter', pauseHeroSlideshow);
+                heroImageContainer.addEventListener('mouseleave', resumeHeroSlideshow);
+            }
+            
+            const postNewsBtn = document.querySelector('button:contains("Mulai Posting Berita")');
+            if (postNewsBtn) {
+                postNewsBtn.addEventListener('click', function() {
+                    if (isLoggedIn) {
+                        showAddNewsForm();
+                    } else {
+                        showAlert('Anda harus login sebagai admin untuk posting berita!', 'warning');
+                        setTimeout(() => {
+                            showLoginModal();
+                        }, 1500);
+                    }
+                });
+            }
+        });
+
+        // Make "Baca Berita" and "Lihat Semua Berita" buttons functional
+        function showNewsDetail(title) {
+            showAlert(`Membuka detail berita: ${title}`, 'info');
+        }
+
+        function showAllNews() {
+            showAlert('Menampilkan semua berita...', 'info');
+        }
+
+        // Add CSS for shake animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                75% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar background change on scroll
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
+                navbar.style.backdropFilter = 'blur(10px)';
+            } else {
+                navbar.style.background = 'white';
+                navbar.style.backdropFilter = 'none';
+            }
+        });
+
+        // Animation on scroll (simple version)
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards
+        document.querySelectorAll('.feature-card, .news-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

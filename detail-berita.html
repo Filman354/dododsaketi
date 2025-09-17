@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Berita - Dodod Saketi</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c5530;
+            --secondary-color: #4a7c59;
+            --accent-color: #f39c12;
+            --light-bg: #f8f9fa;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background-color: var(--light-bg);
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            color: var(--primary-color) !important;
+            font-size: 1.5rem;
+        }
+        
+        .article-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 80px 0 40px;
+        }
+        
+        .article-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .article-content {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            margin-top: -50px;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        .article-meta {
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .badge-category {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .related-news {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .news-item {
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .news-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            color: inherit;
+        }
+        
+        .hover-shadow {
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+        
+        .hover-shadow:hover {
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
+            transform: translateY(-2px);
+        }
+        
+        .comment-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+        
+        .comment-item {
+            border-left: 3px solid var(--primary-color);
+            padding-left: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 25px;
+            padding: 12px 30px;
+            font-weight: 600;
+        }
+        
+        .social-share {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+        }
+        
+        .share-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            margin: 0 5px;
+            transition: transform 0.3s ease;
+        }
+        
+        .share-btn:hover {
+            transform: translateY(-2px);
+            color: white;
+        }
+        
+        .facebook { background: #3b5998; }
+        .twitter { background: #1da1f2; }
+        .whatsapp { background: #25d366; }
+        .telegram { background: #0088cc; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                Dodod Saketi
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Beranda</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="semua-berita.html">Berita</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#tentang">Tentang</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#kontak">Kontak</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <a href="index.html" class="btn btn-outline-primary me-2">
+                        <i class="fas fa-arrow-left me-1"></i>Kembali
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Article Header -->
+    <section class="article-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto text-center">
+                    <span class="badge-category">Berita Utama</span>
+                    <h1 class="display-5 fw-bold mt-3">Pembangunan Infrastruktur Baru di Saketi</h1>
+                    <p class="lead mt-3">Pemerintah daerah meluncurkan proyek pembangunan infrastruktur terbaru untuk meningkatkan kualitas hidup masyarakat Saketi</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Content -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="article-content">
+                        <!-- Article Image -->
+                        <div class="text-center mb-4">
+                            <div style="width: 100%; height: 400px; background: linear-gradient(45deg, #ddd, #eee); border-radius: 15px; display: flex; align-items: center; justify-content: center;">
+                                <div class="text-center text-muted">
+                                    <i class="fas fa-image" style="font-size: 3rem;"></i>
+                                    <p class="mt-3 mb-0">Gambar Berita Utama<br><small>800x400px</small></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Article Meta -->
+                        <div class="article-meta">
+                            <div class="row align-items-center">
+                                <div class="col-md-6">
+                                    <div class="d-flex align-items-center">
+                                        <div class="me-3">
+                                            <div style="width: 50px; height: 50px; background: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                                <i class="fas fa-user text-white"></i>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h6 class="mb-0">Admin Dodod Saketi</h6>
+                                            <small class="text-muted">Penulis</small>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-md-end">
+                                    <p class="mb-1">
+                                        <i class="fas fa-calendar text-primary me-2"></i>
+                                        5 September 2025
+                                    </p>
+                                    <p class="mb-0">
+                                        <i class="fas fa-eye text-primary me-2"></i>
+                                        1,247 views
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Article Body -->
+                        <div class="article-body">
+                            <p class="lead">
+                                Saketi, Pandeglang - Pemerintah Daerah Kabupaten Pandeglang resmi meluncurkan proyek pembangunan infrastruktur terbaru di wilayah Saketi. Proyek ambisius ini diharapkan dapat meningkatkan kualitas hidup masyarakat setempat dan mendorong pertumbuhan ekonomi daerah.
+                            </p>
+
+                            <p>
+                                Kepala Dinas Pekerjaan Umum dan Penataan Ruang Kabupaten Pandeglang, Bapak Suharto, menjelaskan bahwa proyek ini mencakup pembangunan jalan raya sepanjang 15 kilometer, jembatan penghubung antar desa, serta fasilitas air bersih untuk 500 kepala keluarga.
+                            </p>
+
+                            <blockquote class="blockquote text-center my-4 p-4" style="background: #f8f9fa; border-left: 4px solid var(--primary-color);">
+                                <p class="mb-0">"Pembangunan ini merupakan komitmen kami untuk meningkatkan kesejahteraan masyarakat Saketi. Kami berharap dengan infrastruktur yang lebih baik, perekonomian masyarakat juga akan semakin berkembang."</p>
+                                <footer class="blockquote-footer mt-2">
+                                    <cite title="Source Title">Bapak Suharto, Kepala Dinas PUPR</cite>
+                                </footer>
+                            </blockquote>
+
+                            <h3>Detail Proyek Pembangunan</h3>
+                            <p>
+                                Proyek pembangunan infrastruktur ini akan dilaksanakan dalam tiga tahap dengan total anggaran sebesar Rp 25 miliar yang bersumber dari APBD dan bantuan pemerintah pusat.
+                            </p>
+
+                            <ul>
+                                <li><strong>Tahap 1:</strong> Pembangunan jalan raya utama (5 km) - Selesai dalam 6 bulan</li>
+                                <li><strong>Tahap 2:</strong> Pembangunan jembatan dan jalan penghubung (10 km) - Selesai dalam 8 bulan</li>
+                                <li><strong>Tahap 3:</strong> Instalasi fasilitas air bersih dan sanitasi - Selesai dalam 4 bulan</li>
+                            </ul>
+
+                            <h3>Manfaat untuk Masyarakat</h3>
+                            <p>
+                                Dengan adanya pembangunan infrastruktur ini, diharapkan berbagai manfaat dapat dirasakan langsung oleh masyarakat, antara lain:
+                            </p>
+
+                            <div class="row g-3 my-4">
+                                <div class="col-md-6">
+                                    <div class="d-flex">
+                                        <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                                        <div>
+                                            <h6>Akses Transportasi Lebih Mudah</h6>
+                                            <p class="text-muted mb-0">Jalan yang lebih baik memudahkan mobilitas masyarakat</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-flex">
+                                        <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                                        <div>
+                                            <h6>Peningkatan Ekonomi</h6>
+                                            <p class="text-muted mb-0">Akses yang mudah mendorong aktivitas ekonomi</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-flex">
+                                        <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                                        <div>
+                                            <h6>Air Bersih Terjamin</h6>
+                                            <p class="text-muted mb-0">Kebutuhan air bersih masyarakat terpenuhi</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-flex">
+                                        <i class="fas fa-check-circle text-success me-3 mt-1"></i>
+                                        <div>
+                                            <h6>Konektivitas Antar Desa</h6>
+                                            <p class="text-muted mb-0">Hubungan antar desa menjadi lebih baik</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p>
+                                Masyarakat Saketi menyambut baik rencana pembangunan ini. Kepala Desa Saketi, Bapak Ahmad Subarjo, mengungkapkan rasa syukur dan optimisme terhadap dampak positif yang akan dirasakan.
+                            </p>
+
+                            <p>
+                                "Kami sangat bersyukur atas perhatian pemerintah daerah. Pembangunan ini sudah kami nantikan sejak lama. Semoga dapat berjalan lancar dan sesuai jadwal," ujar Bapak Ahmad.
+                            </p>
+
+                            <h3>Jadwal Pelaksanaan</h3>
+                            <p>
+                                Proyek pembangunan dijadwalkan dimulai pada tanggal 15 September 2025 dan ditargetkan selesai seluruhnya pada pertengahan tahun 2026. Kontraktor yang ditunjuk adalah PT Karya Infrastruktur Nusantara yang memiliki pengalaman dalam proyek-proyek sejenis.
+                            </p>
+
+                            <p>
+                                Selama masa pembangunan, masyarakat diharapkan dapat bersabar menghadapi kemungkinan gangguan lalu lintas sementara. Pihak kontraktor akan berusaha meminimalkan dampak terhadap aktivitas sehari-hari masyarakat.
+                            </p>
+                        </div>
+
+                        <!-- Social Share -->
+                        <div class="social-share">
+                            <h6 class="mb-3">
+                                <i class="fas fa-share-alt me-2"></i>Bagikan Berita Ini:
+                            </h6>
+                            <div class="d-flex">
+                                <a href="#" class="share-btn facebook" title="Bagikan ke Facebook">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="share-btn twitter" title="Bagikan ke Twitter">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="share-btn whatsapp" title="Bagikan ke WhatsApp">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                                <a href="#" class="share-btn telegram" title="Bagikan ke Telegram">
+                                    <i class="fab fa-telegram-plane"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="col-lg-4">
+                    <!-- Related News -->
+                    <div class="related-news mb-4">
+                        <h5 class="mb-4">
+                            <i class="fas fa-newspaper me-2 text-primary"></i>Berita Terkait
+                        </h5>
+                        
+                        <div id="relatedNewsContainer">
+                            <!-- Berita terkait akan ditampilkan di sini secara dinamis -->
+                            <div class="text-center text-muted py-4">
+                                <i class="fas fa-spinner fa-spin"></i> Memuat berita terkait...
+                            </div>
+                        </div>
+
+                        <div class="text-center mt-3">
+                            <a href="semua-berita.html" class="btn btn-outline-primary btn-sm">
+                                Lihat Semua Berita
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Popular News -->
+                    <div class="related-news">
+                        <h5 class="mb-4">
+                            <i class="fas fa-fire me-2 text-danger"></i>Berita Populer
+                        </h5>
+                        
+                        <div id="popularNewsContainer">
+                            <!-- Berita populer akan ditampilkan di sini secara dinamis -->
+                            <div class="text-center text-muted py-4">
+                                <i class="fas fa-spinner fa-spin"></i> Memuat berita populer...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comments Section -->
+    <section class="pb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="comment-section">
+                        <h5 class="mb-4">
+                            <i class="fas fa-comments me-2 text-primary"></i>Komentar (3)
+                        </h5>
+
+                        <div class="comment-item">
+                            <div class="d-flex mb-2">
+                                <strong>Budi Santoso</strong>
+                                <small class="text-muted ms-auto">2 jam yang lalu</small>
+                            </div>
+                            <p class="text-muted mb-0">Alhamdulillah, akhirnya pembangunan ini terealisasi. Semoga bisa selesai tepat waktu dan bermanfaat untuk semua masyarakat Saketi.</p>
+                        </div>
+
+                        <div class="comment-item">
+                            <div class="d-flex mb-2">
+                                <strong>Siti Nurhaliza</strong>
+                                <small class="text-muted ms-auto">5 jam yang lalu</small>
+                            </div>
+                            <p class="text-muted mb-0">Sangat bagus sekali program ini. Mudah-mudahan akses ke pasar jadi lebih mudah untuk jualan hasil kebun kami.</p>
+                        </div>
+
+                        <div class="comment-item">
+                            <div class="d-flex mb-2">
+                                <strong>Ahmad Wijaya</strong>
+                                <small class="text-muted ms-auto">1 hari yang lalu</small>
+                            </div>
+                            <p class="text-muted mb-0">Terima kasih kepada pemerintah daerah yang sudah memperhatikan kebutuhan infrastruktur di desa kami. Semoga lancar prosesnya!</p>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h6>Tulis Komentar</h6>
+                        <form>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" placeholder="Nama Anda" required>
+                            </div>
+                            <div class="mb-3">
+                                <textarea class="form-control" rows="4" placeholder="Tulis komentar Anda..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane me-2"></i>Kirim Komentar
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer style="background: var(--primary-color); color: white; padding: 40px 0;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>
+                        Dodod Saketi
+                    </h5>
+                    <p>Portal berita dan informasi terpercaya untuk masyarakat Saketi.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="d-flex justify-content-md-end">
+                        <a href="#" class="text-white me-3" style="font-size: 1.5rem;">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-white me-3" style="font-size: 1.5rem;">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                        <a href="#" class="text-white" style="font-size: 1.5rem;">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <hr style="border-color: rgba(255,255,255,0.2);">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2025 Dodod Saketi. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Analytics System -->
+    <script src="analytics.js"></script>
+    
+    <script>
+        // Load news detail based on URL parameter
+        function loadNewsDetail() {
+            // Get news ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const newsId = urlParams.get('id');
+            
+            if (!newsId) {
+                // Redirect to home if no ID
+                window.location.href = 'index.html';
+                return;
+            }
+            
+            // Get news from localStorage
+            const allNews = JSON.parse(localStorage.getItem('dodod_news') || '[]');
+            const news = allNews.find(n => n.id === newsId);
+            
+            if (!news) {
+                // Show error if news not found
+                document.querySelector('.article-header .container').innerHTML = `
+                    <div class="text-center">
+                        <h1>Berita Tidak Ditemukan</h1>
+                        <p class="lead">Maaf, berita yang Anda cari tidak dapat ditemukan.</p>
+                        <a href="index.html" class="btn btn-light">Kembali ke Beranda</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Update page title
+            document.title = news.title + ' - Dodod Saketi';
+            
+            // Update header content
+            const date = new Date(news.createdAt).toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            
+            const categoryName = getCategoryName(news.category);
+            
+            document.querySelector('.article-header .container').innerHTML = `
+                <div class="text-center">
+                    <span class="badge-category">${categoryName}</span>
+                    <h1 class="display-5 fw-bold mt-3">${news.title}</h1>
+                    <p class="lead mt-3">${news.content.substring(0, 150)}...</p>
+                </div>
+            `;
+            
+            // Update article content
+            const imageHTML = news.imageData ? 
+                `<img src="${news.imageData}" alt="${news.title}" class="article-image" style="width: 100%; height: 400px; object-fit: cover; border-radius: 15px;">` :
+                `<div style="width: 100%; height: 400px; background: linear-gradient(45deg, #f8f9fa, #e9ecef); border-radius: 15px; display: flex; align-items: center; justify-content: center;">
+                    <div class="text-center text-muted">
+                        <i class="fas fa-image" style="font-size: 3rem;"></i>
+                        <p class="mt-3 mb-0">Tidak ada gambar</p>
+                    </div>
+                </div>`;
+            
+            document.querySelector('.article-content').innerHTML = `
+                <!-- Article Image -->
+                <div class="text-center mb-4">
+                    ${imageHTML}
+                </div>
+
+                <!-- Article Meta -->
+                <div class="article-meta">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <div class="me-3">
+                                    <div style="width: 50px; height: 50px; background: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-user text-white"></i>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h6 class="mb-0">${news.author}</h6>
+                                    <small class="text-muted">Penulis</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <p class="mb-1">
+                                <i class="fas fa-calendar text-primary me-2"></i>
+                                ${date}
+                            </p>
+                            <p class="mb-0">
+                                <i class="fas fa-eye text-primary me-2"></i>
+                                ${news.views || 0} views
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Article Body -->
+                <div class="article-body">
+                    <div style="font-size: 1.1rem; line-height: 1.8; text-align: justify;">
+                        ${news.content.replace(/\n/g, '</p><p>')}
+                    </div>
+                    
+                    <!-- Share Section -->
+                    <div class="share-section mt-5 pt-4 border-top">
+                        <h5 class="mb-3">Bagikan Berita Ini</h5>
+                        <div class="d-flex gap-3">
+                            <button class="btn btn-primary btn-sm" onclick="shareToFacebook()">
+                                <i class="fab fa-facebook-f me-2"></i>Facebook
+                            </button>
+                            <button class="btn btn-info btn-sm" onclick="shareToTwitter()">
+                                <i class="fab fa-twitter me-2"></i>Twitter
+                            </button>
+                            <button class="btn btn-success btn-sm" onclick="shareToWhatsApp()">
+                                <i class="fab fa-whatsapp me-2"></i>WhatsApp
+                            </button>
+                            <button class="btn btn-secondary btn-sm" onclick="copyLink()">
+                                <i class="fas fa-copy me-2"></i>Salin Link
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Increment view count
+            news.views = (news.views || 0) + 1;
+            const newsIndex = allNews.findIndex(n => n.id === newsId);
+            if (newsIndex !== -1) {
+                allNews[newsIndex] = news;
+                localStorage.setItem('dodod_news', JSON.stringify(allNews));
+            }
+            
+            // Track analytics
+            if (window.dododAnalytics) {
+                window.dododAnalytics.trackNewsView(newsId, news.title);
+            }
+            
+            // Load related and popular news
+            loadRelatedAndPopularNews(newsId);
+        }
+        
+        // Load related and popular news
+        function loadRelatedAndPopularNews(currentNewsId) {
+            const allNews = JSON.parse(localStorage.getItem('dodod_news') || '[]');
+            const publishedNews = allNews.filter(news => 
+                (news.status === 'published' || !news.status) && news.id !== currentNewsId
+            );
+            
+            loadRelatedNews(publishedNews);
+            loadPopularNews(publishedNews);
+        }
+        
+        // Load related news (recent news from different categories)
+        function loadRelatedNews(publishedNews) {
+            const relatedContainer = document.getElementById('relatedNewsContainer');
+            if (!relatedContainer) return;
+            
+            if (publishedNews.length === 0) {
+                relatedContainer.innerHTML = `
+                    <div class="text-center text-muted py-4">
+                        <i class="fas fa-newspaper fa-2x mb-2"></i>
+                        <p class="mb-0">Belum ada berita terkait</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Get recent news (max 3)
+            const recentNews = publishedNews
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                .slice(0, 3);
+            
+            let html = '';
+            recentNews.forEach(news => {
+                const date = new Date(news.createdAt).toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                });
+                
+                const imageHTML = news.imageData ?
+                    `<img src="${news.imageData}" alt="${news.title}" style="width: 100%; height: 80px; object-fit: cover;">` :
+                    `<div style="height: 80px; background: #f8f9fa; display: flex; align-items: center; justify-content: center;">
+                        <i class="fas fa-image text-muted"></i>
+                    </div>`;
+                
+                html += `
+                    <a href="detail-berita.html?id=${news.id}" class="news-item d-block mb-3 text-decoration-none">
+                        <div class="card border-0 hover-shadow">
+                            <div class="row g-0">
+                                <div class="col-4">
+                                    ${imageHTML}
+                                </div>
+                                <div class="col-8">
+                                    <div class="card-body p-3">
+                                        <h6 class="card-title mb-1 text-dark">${news.title}</h6>
+                                        <small class="text-muted">${date}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                `;
+            });
+            
+            relatedContainer.innerHTML = html;
+        }
+        
+        // Load popular news (sorted by views)
+        function loadPopularNews(publishedNews) {
+            const popularContainer = document.getElementById('popularNewsContainer');
+            if (!popularContainer) return;
+            
+            if (publishedNews.length === 0) {
+                popularContainer.innerHTML = `
+                    <div class="text-center text-muted py-4">
+                        <i class="fas fa-fire fa-2x mb-2"></i>
+                        <p class="mb-0">Belum ada berita populer</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Get most viewed news (max 3)
+            const popularNews = publishedNews
+                .sort((a, b) => (b.views || 0) - (a.views || 0))
+                .slice(0, 3);
+            
+            let html = '<div class="list-group list-group-flush">';
+            popularNews.forEach(news => {
+                const date = new Date(news.createdAt).toLocaleDateString('id-ID', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                });
+                
+                const views = news.views || 0;
+                const formattedViews = views.toLocaleString('id-ID');
+                
+                html += `
+                    <a href="detail-berita.html?id=${news.id}" class="list-group-item list-group-item-action border-0 px-0 text-decoration-none">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h6 class="mb-1 text-dark">${news.title}</h6>
+                            <small class="text-muted">${formattedViews} views</small>
+                        </div>
+                        <small class="text-muted">${date}</small>
+                    </a>
+                `;
+            });
+            html += '</div>';
+            
+            popularContainer.innerHTML = html;
+        }
+        
+        // Get category name
+        function getCategoryName(category) {
+            const names = {
+                'berita-utama': 'Berita Utama',
+                'pengumuman': 'Pengumuman',
+                'acara': 'Acara',
+                'pembangunan': 'Pembangunan',
+                'kesehatan': 'Kesehatan',
+                'pendidikan': 'Pendidikan'
+            };
+            return names[category] || 'Lainnya';
+        }
+        
+        // Share functions
+        function shareToFacebook() {
+            const url = encodeURIComponent(window.location.href);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank');
+        }
+        
+        function shareToTwitter() {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(document.title);
+            window.open(`https://twitter.com/intent/tweet?url=${url}&text=${text}`, '_blank');
+        }
+        
+        function shareToWhatsApp() {
+            const url = encodeURIComponent(window.location.href);
+            const text = encodeURIComponent(document.title + ' - ' + url);
+            window.open(`https://wa.me/?text=${text}`, '_blank');
+        }
+        
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                alert('Link berhasil disalin!');
+            });
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadNewsDetail();
+        });
+    </script>
+</body>
+</html>
