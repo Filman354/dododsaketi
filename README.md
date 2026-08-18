@@ -1,5 +1,7 @@
 # 🌿 Website Dodod Saketi
 
+Dodod Saketi — a news and information portal for the Saketi community, Pandeglang, Banten (Indonesia). Built with HTML, JavaScript, and a lightweight Python server. Deployed via GitHub Pages.
+
 Portal berita dan informasi terpercaya untuk masyarakat Saketi, Pandeglang, Banten.
 
 ## 📁 Struktur File
